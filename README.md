@@ -6,7 +6,7 @@ A simple module for Foundry VTT that uses a file picker to change the Game Pause
 ## How to Use This Module
 
 - Open Module Settings: Select the path to your desire image using the file picker and "Save Changes".
-- Reload/Refresh: Reload Foundry and the new image will appear.
+- Pause/Unpause: Use spacebar to Pause/Unpause and new image will appear.
 
 ## Releases
 
