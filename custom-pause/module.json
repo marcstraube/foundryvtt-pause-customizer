@@ -2,7 +2,7 @@
     "name": "custom-pause",
     "title": "Custom Pause",
     "description": "A simple module for Foundry VTT that uses a file picker to change the Game Paused image.",
-    "version": "0.1.0.0",
+    "version": "1.0.0.",
     "library": "false",
     "manifestPlusVersion": "1.0.0",
     "minimumCoreVersion": "0.7.10",
