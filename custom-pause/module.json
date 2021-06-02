@@ -24,7 +24,7 @@
             "path": "languages/en.json"
         }
     ],
-    "url": "",
-    "manifest": "",
+    "url": "https://gitlab.com/jestevens210/custom-pause/",
+    "manifest": "https://gitlab.com/jestevens210/custom-pause/-/blob/main/custom-pause/module.json",
     "download": ""
 }
