@@ -12,5 +12,6 @@ Open Module Settings and select the path to your desire image using the file pic
 ## Reload/Refresh
 Reload Foundry and the new image will appear.
 
-#Releases
+# Releases
+
 1.0.0 - Initial Release (June, 2021)
