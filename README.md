@@ -1,6 +1,7 @@
 # custom-pause
 
 A simple module for Foundry VTT that uses a file picker to change the Game Paused image.
+![FVTT Icon](https://gitlab.com/jestevens210/custom-pause/-/raw/main/images/custom-pause-gif.gif)
 
 ## Choose Image File
 
