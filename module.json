@@ -25,6 +25,6 @@
         }
     ],
     "url": "https://gitlab.com/jestevens210/custom-pause/",
-    "manifest": "https://gitlab.com/jestevens210/custom-pause/-/blob/main/custom-pause/module.json",
+    "manifest": "https://gitlab.com/jestevens210/custom-pause/-/raw/main/module.json",
     "download": "https://gitlab.com/jestevens210/custom-pause/-/blob/main/custom-pause.zip"
 }
