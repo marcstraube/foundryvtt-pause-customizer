@@ -21,7 +21,7 @@ Package:
       if [[ $CI_COMMIT_TAG ]]; then export PACKAGE_VERSION=$CI_COMMIT_TAG; fi
       sed -i "s/VERSIONTEMPLATE/${PACKAGE_VERSION}/g" module.json
       sed -i "s/REFTEMPLATE/${CI_COMMIT_REF_NAME}/g" module.json
-      cp -r scripts Changelog.md module.json readme.md ${CI_PROJECT_NAME}/.
+      cp -r scripts Changelog.md module.json README.md ${CI_PROJECT_NAME}/.
       zip -9r ${CI_PROJECT_NAME}-${PACKAGE_VERSION}.zip ./${CI_PROJECT_NAME}
   artifacts:
     paths:
@@ -39,7 +39,7 @@ Publish:
       apk add curl
       curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ${CI_PROJECT_NAME}-${PACKAGE_VERSION}.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/${CI_PROJECT_NAME}-${PACKAGE_VERSION}.zip
       curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file module.json ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/module.json
-      curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file readme.md  ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/readme.md
+      curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file README.md  ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/README.md
       curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file CHANGELOG.md  ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/CHANGELOG.md
 
 updateModule:
