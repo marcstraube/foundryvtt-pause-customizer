@@ -8,8 +8,6 @@ stages:
 
 variables:
   PACKAGE_VERSION: "0.0.1"
-  MODULE_FOLDER: "${CI_JOB_URL}/artifacts/file/output"
-  ZIP_FOLDER: "${CI_JOB_URL}/artifacts/raw/output"
 
 Package:
   stage: bundle

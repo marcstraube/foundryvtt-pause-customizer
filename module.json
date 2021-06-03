@@ -26,7 +26,7 @@
     ],
     "url": "https://gitlab.com/jestevens210/custom-pause/",
     "manifest": "https://gitlab.com/jestevens210/custom-pause/-/raw/latest/module.json",
-    "download": "https://gitlab.com/jestevens210/custom-pause/-/jobs/artifacts/REFTEMPLATE/raw/custom-pause-VERSIONTEMPLATE.zip",
+    "download": "https://gitlab.com/jestevens210/custom-pause/-/jobs/artifacts/REFTEMPLATE/raw/custom-pause-VERSIONTEMPLATE.zip?job=Package",
     "bugs": "https://gitlab.com/jestevens210/custom-pause/-/issues",
     "changelog": "https://gitlab.com/jestevens210/custom-pause/-/releases",
     "readme": "https://gitlab.com/jestevens210/custom-pause/-/blob/master/README.md"
