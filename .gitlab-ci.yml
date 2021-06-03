@@ -1,0 +1,70 @@
+include:
+  - template: 'Workflows/Branch-Pipelines.gitlab-ci.yml'
+
+stages:
+  - bundle
+  - upload
+  - release
+
+variables:
+  PACKAGE_VERSION: "0.0.1"
+  MODULE_FOLDER: "${CI_JOB_URL}/artifacts/file/output"
+  ZIP_FOLDER: "${CI_JOB_URL}/artifacts/raw/output"
+
+Package:
+  stage: bundle
+  image: alpine:latest
+  script:
+    - |
+      apk add zip
+      mkdir ${CI_PROJECT_NAME}
+      if [[ $CI_COMMIT_TAG ]]; then export PACKAGE_VERSION=$CI_COMMIT_TAG; fi
+      sed -i "s/VERSIONTEMPLATE/${PACKAGE_VERSION}/g" module.json
+      sed -i "s/REFTEMPLATE/${CI_COMMIT_REF_NAME}/g" module.json
+      cp -r scripts Changelog.md module.json readme.md ${CI_PROJECT_NAME}/.
+      zip -9r ${CI_PROJECT_NAME}-${PACKAGE_VERSION}.zip ./${CI_PROJECT_NAME}
+  artifacts:
+    paths:
+      - "module.json"
+      - "*.md"
+      - "*.zip"
+
+Publish:
+  stage: upload
+  image: alpine:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - |
+      apk add curl
+      curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file ${CI_PROJECT_NAME}-${PACKAGE_VERSION}.zip ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/${CI_PROJECT_NAME}-${PACKAGE_VERSION}.zip
+      curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file module.json ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/module.json
+      curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file readme.md  ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/readme.md
+      curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file CHANGELOG.md  ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${CI_PROJECT_NAME}/${PACKAGE_VERSION}/CHANGELOG.md
+
+updateModule:
+  image: alpine
+  stage: upload
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - apk --update add git less openssh
+    - git clone https://joeschnurr:${AccessToken}@gitlab.com/${CI_PROJECT_PATH}.git 
+    - cd $CI_PROJECT_NAME
+    - git config user.email "joe.schnurr@gmail.com"
+    - git config user.name "Joseph Schnurr"
+    - git checkout latest
+    - cp ${CI_PROJECT_DIR}/module.json .
+    - git add module.json
+    - git commit -m "Release $CI_COMMIT_TAG"
+    - git push
+
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - |
+      release-cli create --name "$CI_PROJECT_TITLE Release $CI_COMMIT_TAG" --tag-name $CI_COMMIT_TAG --description CHANGELOG.md 
+  
