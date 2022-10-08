@@ -4,9 +4,11 @@
     "description": "A simple module for Foundry VTT that uses a file picker to change the Game Paused image.",
     "version": "VERSIONTEMPLATE",
     "library": "false",
-    "manifestPlusVersion": "1.2.0",
-    "minimumCoreVersion": "0.8.6",
-    "compatibleCoreVersion": "0.8.6",
+    "compatibility": {
+        "minimum": "10",
+        "verified": "10",
+        "maximum": "10"
+    },
     "authors": [
         {
             "name": "John",
@@ -22,6 +24,11 @@
             "lang": "en",
             "name": "English",
             "path": "languages/en.json"
+        },
+        {
+            "lang": "de",
+            "name": "Deutsch",
+            "path": "languages/de.json"
         }
     ],
     "url": "https://gitlab.com/jestevens210/custom-pause/",
@@ -29,5 +36,8 @@
     "download": "https://gitlab.com/jestevens210/custom-pause/-/jobs/artifacts/REFTEMPLATE/raw/custom-pause-VERSIONTEMPLATE.zip?job=Package",
     "bugs": "https://gitlab.com/jestevens210/custom-pause/-/issues",
     "changelog": "https://gitlab.com/jestevens210/custom-pause/-/releases",
-    "readme": "https://gitlab.com/jestevens210/custom-pause/-/blob/main/README.md"
+    "readme":"https://gitlab.com/jestevens210/custom-pause/-/blob/main/README.md",
+    "flags": {
+        "allowBugReporter": true
+    }
 }
