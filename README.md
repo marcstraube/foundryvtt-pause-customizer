@@ -6,11 +6,14 @@
 ![Foundry Core Minimal Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmarcstraube%2Ffoundryvtt-pause-customizer%2Fmaster%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.minimum&colorB=orange&style=for-the-badge)
 [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fpause-customizer&colorB=006400&style=for-the-badge)](https://forge-vtt.com/bazaar#package=pause-customizer)
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J1FVK91)
+
 A small module to customize the pause image, animation style and pause text.
 
 This module is based on the [Custom Pause](https://gitlab.com/jestevens210/custom-pause/) module by John Stevens.
 
 ![FVTT Icon](images/custom-pause.gif)
+
 
 ## How to Use This Module
 
