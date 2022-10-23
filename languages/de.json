@@ -1,0 +1,6 @@
+{
+  "CUSTOM_PAUSE": {
+    "SELECT_IMAGE": "Bild auswählen",
+    "SELECT_IMAGE_HINT": "Wähle ein Bild als Pause Icon. Neuladen um Änderungen anzuwenden."
+  }
+}
