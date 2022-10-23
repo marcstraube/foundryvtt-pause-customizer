@@ -1,0 +1,14 @@
+{
+  "PAUSE_CUSTOMIZER": {
+    "SELECT_IMAGE": "Select image",
+    "SELECT_IMAGE_HINT": "Select an image for your pause icon. Reload to apply changes.",
+    "ANIMATION_DIRECTION": "Animation direction",
+    "ANIMATION_DIRECTION_HINT": "Choose animation direction. Reload to apply changes.",
+    "ANIMATION_DURATION": "Animation duration",
+    "ANIMATION_DURATION_HINT": "Choose animation duration. Reload to apply changes.",
+    "ANIMATION_TIMING": "Animation timing",
+    "ANIMATION_TIMING_HINT": "Choose animation timing. Reload to apply changes",
+    "PAUSE_TEXT": "Pause text",
+    "PAUSE_TEXT_HINT": "Change the pause text. Leave empty to use the default text. Reload to apply changes."
+  }
+}
