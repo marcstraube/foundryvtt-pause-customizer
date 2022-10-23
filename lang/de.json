@@ -1,0 +1,14 @@
+{
+  "PAUSE_CUSTOMIZER": {
+    "SELECT_IMAGE": "Bild auswählen",
+    "SELECT_IMAGE_HINT": "Wähle ein Bild als Pause Icon. Neuladen um Änderungen anzuwenden.",
+    "ANIMATION_DIRECTION": "Animationsrichtung",
+    "ANIMATION_DIRECTION_HINT": "Wähle die Animationsrichtung. Neuladen um Änderungen anzuwenden.",
+    "ANIMATION_DURATION": "Animationsdauer",
+    "ANIMATION_DURATION_HINT": "Wähle die Animationsdauer. Neuladen um Änderungen anzuwenden.",
+    "ANIMATION_TIMING": "Animationstiming",
+    "ANIMATION_TIMING_HINT": "Wähle das Animationstiming. Neuladen um Änderungen anzuwenden.",
+    "PAUSE_TEXT": "Pause-Text",
+    "PAUSE_TEXT_HINT": "Ändere den Pause-Text. Feld leer lassen, um den Standardtext zu verwenden. Neuladen um Änderungen anzuwenden."
+  }
+}

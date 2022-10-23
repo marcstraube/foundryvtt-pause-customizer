@@ -1,42 +1,45 @@
 {
-    "name": "custom-pause",
-    "title": "Custom Pause",
-    "description": "A simple module for Foundry VTT that uses a file picker to change the Game Paused image.",
-    "version": "VERSIONTEMPLATE",
+    "name": "pause-customizer",
+    "title": "Pause Customizer",
+    "description": "A small module to customize the pause image, animation style and pause text.",
+    "license": "MIT",
     "library": "false",
+    "authors": [
+        {
+            "name": "Marc Straube",
+            "email": "email@marcstraube.de",
+            "discord": "durag-c-walker#8327",
+            "url": "https://github.com/marcstraube"
+        }
+    ],
+    "version": "This is auto replaced",
     "compatibility": {
         "minimum": "10",
         "verified": "10",
         "maximum": "10"
     },
-    "authors": [
-        {
-            "name": "John",
-            "url": "https://www.savagerifts.com",
-            "discord": "John (Venatus Vinco)#5102"
-        }
-    ],
-    "esmodules": [
-        "/scripts/module.js"
+    "scripts": [
+        "scripts/module.js"
     ],
     "languages": [
         {
             "lang": "en",
             "name": "English",
-            "path": "languages/en.json"
+            "path": "lang/en.json"
         },
         {
             "lang": "de",
             "name": "Deutsch",
-            "path": "languages/de.json"
+            "path": "lang/de.json"
         }
     ],
-    "url": "https://gitlab.com/jestevens210/custom-pause/",
-    "manifest": "https://gitlab.com/jestevens210/custom-pause/-/raw/latest/module.json",
-    "download": "https://gitlab.com/jestevens210/custom-pause/-/jobs/artifacts/REFTEMPLATE/raw/custom-pause-VERSIONTEMPLATE.zip?job=Package",
-    "bugs": "https://gitlab.com/jestevens210/custom-pause/-/issues",
-    "changelog": "https://gitlab.com/jestevens210/custom-pause/-/releases",
-    "readme":"https://gitlab.com/jestevens210/custom-pause/-/blob/main/README.md",
+    "relationships": {},
+    "url": "This is auto replaced",
+    "manifest": "This is auto replaced",
+    "download": "This is auto replaced",
+    "bugs": "This is auto replaced",
+    "changelog": "This is auto replaced",
+    "readme":"This is auto replaced",
     "flags": {
         "allowBugReporter": true
     }
