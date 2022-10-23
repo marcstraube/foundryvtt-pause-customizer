@@ -25,7 +25,14 @@ For possible settings values and more information about them, see the follwing l
 
 ## Installation
 
+**Method 1:**
+* Start Foundry and head to the Add-on Modules tab.
+* Click Install Module.
+* Search for "Pause Customizer"
+* Click the **Install** button when it comes up.
+
+**Method 2:**
 * Start Foundry and head to the Add-on Modules tab.
 * Click Install Module.
 * Paste the following link into the "Manifest URL" field at the bottom: <https://github.com/marcstraube/foundryvtt-pause-customizer/releases/latest/download/module.json>
-* Click Install
+* Click **Install**.
