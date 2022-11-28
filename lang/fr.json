@@ -1,1 +1,14 @@
-{}
+{
+  "PAUSE_CUSTOMIZER": {
+    "ANIMATION_DIRECTION": "Direction de l'animation",
+    "ANIMATION_DIRECTION_HINT": "Choisissez la direction de l'animation. Rechargez pour appliquer les changements.",
+    "ANIMATION_DURATION": "Durée de l'animation",
+    "ANIMATION_TIMING": "Temps d'animation",
+    "ANIMATION_TIMING_HINT": "Choisissez le temps de l'animation. Rechargez pour appliquer les changements",
+    "PAUSE_TEXT": "Texte de la pause",
+    "PAUSE_TEXT_HINT": "Modifiez le message du texte. Laissez vide pour utiliser le texte par défaut. Rechargez pour appliquer les modifications.",
+    "SELECT_IMAGE": "Choisir une image",
+    "SELECT_IMAGE_HINT": "Choisir une image lorsque le jeu est en pause. Recharger pour appliquer les changements.",
+    "ANIMATION_DURATION_HINT": "Choisissez la durée de l'animation. Rechargez pour appliquer les changements."
+  }
+}
