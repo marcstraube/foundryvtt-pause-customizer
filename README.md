@@ -8,6 +8,9 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J1FVK91)
 
+[![Weblate Translation Status](https://weblate.foundryvtt-hub.com/widgets/pause-customizer/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/pause-customizer/)
+
+
 A small module to customize the pause image, animation style and pause text.
 
 This module is based on the [Custom Pause](https://gitlab.com/jestevens210/custom-pause/) module by John Stevens.
