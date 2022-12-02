@@ -10,6 +10,16 @@ Hooks.on("init", () => {
         requiresReload: true
     });
 
+    game.settings.register("pause-customizer", "opacity", {
+		name: game.i18n.localize("PAUSE_CUSTOMIZER.OPACITY"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.OPACITY_HINT"),
+        scope: "world",
+        config: true,
+        type: Number,
+        default: 0.5,
+        requiresReload: true
+	});
+
     game.settings.register("pause-customizer", "animationDirection", {
 		name: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DIRECTION"),
         hint: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DIRECTION_HINT"),
@@ -32,7 +42,7 @@ Hooks.on("init", () => {
         scope: "world",
         config: true,
         type: String,
-        default: "5s",
+        default: "",
         requiresReload: true
 	});
 
@@ -42,7 +52,7 @@ Hooks.on("init", () => {
         scope: "world",
         config: true,
         type: String,
-        default: "linear",
+        default: "",
         requiresReload: true
 	});
 
@@ -55,24 +65,80 @@ Hooks.on("init", () => {
         default: "",
         requiresReload: true
 	});
+
+    game.settings.register("pause-customizer", "pauseTextColor", {
+		name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_COLOR"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_COLOR_HINT"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "",
+        requiresReload: true
+	});
+
+    game.settings.register("pause-customizer", "pauseTextFontSize", {
+		name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_FONT_SIZE"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_FONT_SIZE_HINT"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "",
+        requiresReload: true
+	});
+
+    game.settings.register("pause-customizer", "pauseTextShadow", {
+		name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_SHADOW"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_SHADOW_HINT"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "",
+        requiresReload: true
+	});
 });
 
 Hooks.on("renderPause", (app, html, options) => {
     if (options.paused) {
-        let img = html.find("img")[0];
+        const img = html.find("img")[0];
         img.src = game.settings.get("pause-customizer", "chooseFile");
 
         let style = "--fa-animation-direction: " + game.settings.get("pause-customizer", "animationDirection") + ";";
-        style += "--fa-animation-duration: " + game.settings.get("pause-customizer", "animationDuration") + ";";
-        style += "--fa-animation-timing: " + game.settings.get("pause-customizer", "animationTiming") + ";";
+
+        if (game.settings.get("pause-customizer", "opacity") !== "") {
+            style += "opacity: " + game.settings.get("pause-customizer", "opacity") + ";";
+        }
+
+        if (game.settings.get("pause-customizer", "animationDuration") !== "") {
+            style += "--fa-animation-duration: " + game.settings.get("pause-customizer", "animationDuration") + ";";
+        }
+
+        if (game.settings.get("pause-customizer", "animationTiming") !== "") {
+            style += "--fa-animation-timing: " + game.settings.get("pause-customizer", "animationTiming") + ";";
+        }
+
         img.style = style;
 
-        let caption = html.find("figcaption")[0];
-        let pauseText = game.settings.get("pause-customizer", "pauseText");
+        const caption = html.find("figcaption")[0];
 
-        if (pauseText !== "") {
-            caption.textContent = pauseText;
+        if (game.settings.get("pause-customizer", "pauseText") !== "") {
+            caption.textContent = game.settings.get("pause-customizer", "pauseText");
         }
+
+        style = "";
+
+        if (game.settings.get("pause-customizer", "pauseTextColor") !== "") {
+            style += "color:" + game.settings.get("pause-customizer", "pauseTextColor") + ";";
+        }
+
+        if (game.settings.get("pause-customizer", "pauseTextFontSize") !== "") {
+            style += "font-size:" + game.settings.get("pause-customizer", "pauseTextFontSize") + ";";
+        }
+
+        if (game.settings.get("pause-customizer", "pauseTextShadow") !== "") {
+            style += "text-shadow:" + game.settings.get("pause-customizer", "pauseTextShadow") + ";";
+        }
+
+        caption.style = style;
     }
 });
 
@@ -80,8 +146,9 @@ Hooks.once('libChangelogsReady', function () {
     libChangelogs.register(
         "pause-customizer",
         "<ul>" +
-        "<li>Initial release of <strong>Pause Customizer</strong> module.</li>" +
+        "<li>Add French translation.</li>" +
+        "<li>Allow customization of image opacity, text color, font-size and shadow.</li>" +
         "</ul>",
-        "major"
+        "minor"
     );
 });

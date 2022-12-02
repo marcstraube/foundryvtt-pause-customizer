@@ -2,6 +2,8 @@
   "PAUSE_CUSTOMIZER": {
     "SELECT_IMAGE": "Bild auswählen",
     "SELECT_IMAGE_HINT": "Wähle ein Bild als Pause Icon. Neuladen um Änderungen anzuwenden.",
+    "OPACITY": "Transparenz",
+    "OPACITY_HINT": "Setze den Transparenz-Wert des Bildes (zwischen 0 und 1).",
     "ANIMATION_DIRECTION": "Animationsrichtung",
     "ANIMATION_DIRECTION_HINT": "Wähle die Animationsrichtung. Neuladen um Änderungen anzuwenden.",
     "ANIMATION_DURATION": "Animationsdauer",
@@ -9,6 +11,12 @@
     "ANIMATION_TIMING": "Animationstiming",
     "ANIMATION_TIMING_HINT": "Wähle das Animationstiming. Neuladen um Änderungen anzuwenden.",
     "PAUSE_TEXT": "Pause-Text",
-    "PAUSE_TEXT_HINT": "Ändere den Pause-Text. Feld leer lassen, um den Standardtext zu verwenden. Neuladen um Änderungen anzuwenden."
+    "PAUSE_TEXT_HINT": "Ändere den Pause-Text. Feld leer lassen, um den Standardtext zu verwenden. Neuladen um Änderungen anzuwenden.",
+    "PAUSE_TEXT_COLOR": "Pause-Text Farbe",
+    "PAUSE_TEXT_COLOR_HINT": "PAUSE_TEXT_COLOR_HINT",
+    "PAUSE_TEXT_FONT_SIZE": "Pause-Text Schriftgröße",
+    "PAUSE_TEXT_FONT_SIZE_HINT": "PAUSE_TEXT_FONT_SIZE_HINT",
+    "PAUSE_TEXT_SHADOW": "Pause-Text Schatten",
+    "PAUSE_TEXT_SHADOW_HINT": "PAUSE_TEXT_SHADOW_HINT"
   }
 }
