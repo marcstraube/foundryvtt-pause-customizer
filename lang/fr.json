@@ -4,11 +4,19 @@
     "ANIMATION_DIRECTION_HINT": "Choisissez la direction de l'animation. Rechargez pour appliquer les changements.",
     "ANIMATION_DURATION": "Durée de l'animation",
     "ANIMATION_TIMING": "Temps d'animation",
-    "ANIMATION_TIMING_HINT": "Choisissez le temps de l'animation. Rechargez pour appliquer les changements.",
+    "ANIMATION_TIMING_HINT": "Choisissez le temps de l'animation. Laissez vide pour utiliser la valeur par défaut. Rechargez pour appliquer les changements.",
     "PAUSE_TEXT": "Texte de la pause",
     "PAUSE_TEXT_HINT": "Modifiez le message du texte. Laissez vide pour utiliser le texte par défaut. Rechargez pour appliquer les modifications.",
     "SELECT_IMAGE": "Choisir une image",
     "SELECT_IMAGE_HINT": "Choisir une image lorsque le jeu est en pause. Recharger pour appliquer les changements.",
-    "ANIMATION_DURATION_HINT": "Choisissez la durée de l'animation. Rechargez pour appliquer les changements."
+    "ANIMATION_DURATION_HINT": "Choisissez la durée de l'animation. Laissez vide pour utiliser la valeur par défaut. Rechargez pour appliquer les changements.",
+    "PAUSE_TEXT_FONT_SIZE": "Taille de police du texte de la pause",
+    "PAUSE_TEXT_SHADOW": "Ombre du texte de la pause",
+    "OPACITY_HINT": "Fixer la valeur de l'opacité des images (entre 0 et 1).",
+    "OPACITY": "Opacité",
+    "PAUSE_TEXT_COLOR": "Couleur du texte de la pause",
+    "PAUSE_TEXT_FONT_SIZE_HINT": "Changer la taille de la police du texte de la pause. Laissez vide pour utiliser la valeur par défaut. Recharger pour appliquer les changements.",
+    "PAUSE_TEXT_SHADOW_HINT": "Changer l'ombre du texte de la pause. Laisser vide pour utiliser la valeur par défaut. Recharger pour appliquer les changements.",
+    "PAUSE_TEXT_COLOR_HINT": "Changer la couleur du texte de la pause. Laissez vide pour utiliser la valeur par défaut. Recharger pour appliquer les changements."
   }
 }
