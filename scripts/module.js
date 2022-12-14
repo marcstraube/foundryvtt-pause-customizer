@@ -147,7 +147,7 @@ Hooks.once('libChangelogsReady', function () {
         "pause-customizer",
         "<ul>" +
         "<li>Add French translation.</li>" +
-        "<li>Allow customization of image opacity, text color, font-size and shadow.</li>" +
+        "<li>Allow customization of image opacity, text color, font-size and text-shadow.</li>" +
         "</ul>",
         "minor"
     );

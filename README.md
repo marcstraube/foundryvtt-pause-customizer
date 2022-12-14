@@ -27,6 +27,7 @@ For possible settings values and more information about them, see the follwing l
 * [Animation Direction](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction)
 * [Animation Duration](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration)
 * [Animation Timing](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)
+* [Text Shadow](https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow)
 
 
 ## Installation
