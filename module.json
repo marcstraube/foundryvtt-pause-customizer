@@ -15,30 +15,54 @@
   "version": "This is auto replaced",
   "compatibility": {
     "minimum": "10",
-    "verified": "11",
-    "maximum": "11"
+    "verified": "12",
+    "maximum": "12"
   },
   "scripts": [
     "scripts/module.js"
   ],
   "languages": [
     {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    },
-    {
       "lang": "de",
       "name": "Deutsch",
       "path": "lang/de.json"
     },
     {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "es",
+      "name": "Español",
+      "path": "lang/es.json"
+    },
+    {
       "lang": "fr",
       "name": "Français",
       "path": "lang/fr.json"
+    },
+    {
+      "lang": "ja",
+      "name": "日本語",
+      "path": "lang/ja.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-br.json"
     }
   ],
-  "relationships": {},
+  "relationships": {
+    "requires": [{
+      "id": "colorsettings",
+      "type": "module",
+      "manifest": "https://raw.githubusercontent.com/ardittristan/VTTColorSettings/3.0.3/module.json",
+      "compatibility": {
+        "verified": "3.0.3"
+      }
+    }]
+  },
   "url": "This is auto replaced",
   "manifest": "This is auto replaced",
   "download": "This is auto replaced",

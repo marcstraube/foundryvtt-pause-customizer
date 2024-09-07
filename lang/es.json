@@ -1,0 +1,27 @@
+{
+  "PAUSE_CUSTOMIZER": {
+    "ANIMATION_DIRECTION": "Dirección de animación",
+    "ANIMATION_DIRECTION_HINT": "Selecciona la dirección de la animación de rotación. Elige \"Estándar\" para usar la configuración predeterminada del sistema (versiones más recientes del sistema DnD5e no usan rotación). Elige \"none\" para desactivar la rotación.",
+    "ANIMATION_DURATION": "Duración de la animación",
+    "ANIMATION_DURATION_HINT": "Selecciona la duración de la animación de rotación. Deja este campo vacío para usar el valor predeterminado.",
+    "ANIMATION_TIMING": "Tiempo de animación",
+    "ANIMATION_TIMING_HINT": "Selecciona el tiempo de animación de rotación. Deja este campo vacío para usar el valor predeterminado.",
+    "DEFAULT": "Predeterminado",
+    "OPACITY": "Opacidad",
+    "OPACITY_HINT": "Ajusta el nivel de transparencia de la imagen (entre 0 y 1).",
+    "PAUSE_BACKGROUND": "Seleccionar imagen de fondo",
+    "PAUSE_BACKGROUND_HINT": "Cambia la imagen de fondo de la pantalla de pausa. Selecciona una imagen usando el selector de archivos. Deja este campo vacío para usar el texto predeterminado. La imagen de fondo solo se usa si la animación de rotación está activada.",
+    "PAUSE_TEXT": "Texto de pausa",
+    "PAUSE_TEXT_HINT": "Cambia el texto que aparece en la pantalla de pausa. Deja este campo vacío para usar el texto predeterminado.",
+    "PAUSE_TEXT_COLOR": "Color del texto de pausa",
+    "PAUSE_TEXT_COLOR_HINT": "Cambia el color del texto de pausa.",
+    "PAUSE_TEXT_FONT_FAMILY": "Fuente del texto de pausa",
+    "PAUSE_TEXT_FONT_FAMILY_HINT": "Selecciona la fuente del texto de pausa.",
+    "PAUSE_TEXT_FONT_SIZE": "Tamaño de fuente del texto de pausa",
+    "PAUSE_TEXT_FONT_SIZE_HINT": "Cambia el tamaño de fuente del texto de pausa. Deja este campo vacío para usar el tamaño predeterminado.",
+    "PAUSE_TEXT_SHADOW": "Sombra del texto de pausa",
+    "PAUSE_TEXT_SHADOW_HINT": "Cambia la sombra del texto de pausa. Deja este campo vacío para usar la sombra predeterminada.",
+    "SELECT_IMAGE": "Seleccionar imagen",
+    "SELECT_IMAGE_HINT": "Selecciona una imagen para el icono de pausa. Deja este campo vacío para usar el icono predeterminado."
+  }
+}
