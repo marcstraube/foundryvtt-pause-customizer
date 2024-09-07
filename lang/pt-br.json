@@ -1,0 +1,27 @@
+{
+  "PAUSE_CUSTOMIZER": {
+    "ANIMATION_DIRECTION": "Direção da animação",
+    "ANIMATION_DIRECTION_HINT": "Escolha a direção da animação de rotação do ícone de pausa. Selecione \"Padrão\" para usar a animação padrão do sistema (versões mais recentes do sistema DnD5e não usam rotação). Selecione \"none\" para desativar a animação.",
+    "ANIMATION_DURATION": "Duração da animação",
+    "ANIMATION_DURATION_HINT": "Escolha a duração da animação de rotação do ícone de pausa. Deixe este campo em branco para usar a duração padrão.",
+    "ANIMATION_TIMING": "Tempo da animação",
+    "ANIMATION_TIMING_HINT": "Escolha o tempo da animação de rotação do ícone de pausa. Deixe este campo em branco para usar o tempo padrão.",
+    "DEFAULT": "Padrão",
+    "OPACITY": "Opacidade",
+    "OPACITY_HINT": "Ajuste o nível de opacidade da imagem (entre 0 e 1).",
+    "PAUSE_BACKGROUND": "Selecionar imagem de fundo",
+    "PAUSE_BACKGROUND_HINT": "Altere a imagem de fundo da área de pausa. Selecione uma imagem. Deixe este campo em branco para usar o texto padrão. A imagem de fundo só será exibida se a animação de rotação estiver ativada.",
+    "PAUSE_TEXT": "Texto de pausa",
+    "PAUSE_TEXT_HINT": "Altere o texto exibido durante a pausa. Deixe este campo em branco para usar o texto padrão.",
+    "PAUSE_TEXT_COLOR": "Cor do texto de pausa",
+    "PAUSE_TEXT_COLOR_HINT": "Altere a cor do texto de pausa.",
+    "PAUSE_TEXT_FONT_FAMILY": "Fonte do texto de pausa",
+    "PAUSE_TEXT_FONT_FAMILY_HINT": "Escolha a fonte para o texto de pausa.",
+    "PAUSE_TEXT_FONT_SIZE": "Tamanho da fonte do texto de pausa",
+    "PAUSE_TEXT_FONT_SIZE_HINT": "Altere o tamanho da fonte do texto de pausa. Deixe este campo em branco para usar o tamanho padrão.",
+    "PAUSE_TEXT_SHADOW": "Sombra do texto de pausa",
+    "PAUSE_TEXT_SHADOW_HINT": "Altere a sombra do texto de pausa. Deixe este campo em branco para usar a sombra padrão.",
+    "SELECT_IMAGE": "Selecionar imagem",
+    "SELECT_IMAGE_HINT": "Selecione uma imagem para o ícone de pausa. Deixe este campo em branco para usar o ícone padrão."
+  }
+}

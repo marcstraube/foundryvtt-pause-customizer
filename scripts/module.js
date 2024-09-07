@@ -1,13 +1,13 @@
-Hooks.on("init", () => {
+Hooks.on("setup", () => {
     game.settings.register("pause-customizer", "chooseFile", {
         name: game.i18n.localize("PAUSE_CUSTOMIZER.SELECT_IMAGE"),
         hint: game.i18n.localize("PAUSE_CUSTOMIZER.SELECT_IMAGE_HINT"),
         scope: "world",
         config: true,
         type: String,
-        default: "icons/svg/clockwork.svg",
+        default: "",
         filePicker: "image", // This is the important part
-        requiresReload: true
+        requiresReload: false
     });
 
     game.settings.register("pause-customizer", "opacity", {
@@ -16,44 +16,13 @@ Hooks.on("init", () => {
         scope: "world",
         config: true,
         type: Number,
-        default: 0.5,
-        requiresReload: true
-	});
-
-    game.settings.register("pause-customizer", "animationDirection", {
-		name: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DIRECTION"),
-        hint: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DIRECTION_HINT"),
-        scope: "world",
-        config: true,
-        type: String,
-        default: "normal",
-        choices: {
-            "normal": "normal",
-            "reverse": "reverse",
-            "alternate": "alternate",
-            "alternate-reverse": "alternate-reverse"
+        range: {
+            min: 0,
+            max: 1,
+            step: 0.05
         },
-        requiresReload: true
-	});
-
-    game.settings.register("pause-customizer", "animationDuration", {
-		name: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DURATION"),
-        hint: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DURATION_HINT"),
-        scope: "world",
-        config: true,
-        type: String,
-        default: "",
-        requiresReload: true
-	});
-
-    game.settings.register("pause-customizer", "animationTiming", {
-		name: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_TIMING"),
-        hint: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_TIMING_HINT"),
-        scope: "world",
-        config: true,
-        type: String,
-        default: "",
-        requiresReload: true
+        default: 0.75,
+        requiresReload: false
 	});
 
     game.settings.register("pause-customizer", "pauseText", {
@@ -63,18 +32,32 @@ Hooks.on("init", () => {
         config: true,
         type: String,
         default: "",
-        requiresReload: true
+        requiresReload: false
 	});
 
-    game.settings.register("pause-customizer", "pauseTextColor", {
-		name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_COLOR"),
-        hint: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_COLOR_HINT"),
+    let fonts = Object.keys(CONFIG.fontDefinitions).concat(
+        Object.keys(game.settings.get("core", "fonts"))
+    ).sort();
+
+    game.settings.register("pause-customizer", "pauseTextFontFamily", {
+		name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_FONT_FAMILY"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_FONT_FAMILY_HINT"),
         scope: "world",
         config: true,
         type: String,
-        default: "",
-        requiresReload: true
+        choices: fonts,
+        default: fonts.indexOf(CONFIG.defaultFontFamily),
+        requiresReload: false
 	});
+
+    new window.Ardittristan.ColorSetting("pause-customizer", "pauseTextColor", {
+        name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_COLOR"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_COLOR_HINT"),
+        label: "Color Picker",         // The text label used in the button
+        restricted: true,
+        defaultColor: "#ffffffff",
+        scope: "world"
+    })
 
     game.settings.register("pause-customizer", "pauseTextFontSize", {
 		name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_FONT_SIZE"),
@@ -83,7 +66,7 @@ Hooks.on("init", () => {
         config: true,
         type: String,
         default: "",
-        requiresReload: true
+        requiresReload: false
 	});
 
     game.settings.register("pause-customizer", "pauseTextShadow", {
@@ -93,62 +76,150 @@ Hooks.on("init", () => {
         config: true,
         type: String,
         default: "",
-        requiresReload: true
+        requiresReload: false
 	});
+
+    game.settings.register("pause-customizer", "animationDirection", {
+        name: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DIRECTION"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DIRECTION_HINT"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "default",
+        choices: {
+            "default": game.i18n.localize("PAUSE_CUSTOMIZER.DEFAULT"),
+            "none": "none",
+            "normal": "normal",
+            "reverse": "reverse",
+            "alternate": "alternate",
+            "alternate-reverse": "alternate-reverse"
+        },
+        requiresReload: false
+    });
+
+    game.settings.register("pause-customizer", "animationDuration", {
+        name: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DURATION"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_DURATION_HINT"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "",
+        requiresReload: false
+    });
+
+    game.settings.register("pause-customizer", "animationTiming", {
+        name: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_TIMING"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.ANIMATION_TIMING_HINT"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "",
+        requiresReload: false
+    });
+
+    game.settings.register("pause-customizer", "pauseBackground", {
+        name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_BACKGROUND"),
+        hint: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_BACKGROUND_HINT"),
+        scope: "world",
+        config: true,
+        type: String,
+        default: "",
+        filePicker: "image", // This is the important part
+        requiresReload: false
+    });
+});
+
+Hooks.once('ready', () => {
+    try{window.Ardittristan.ColorSetting.tester} catch {
+        ui.notifications.notify('Please make sure you have the "lib - ColorSettings" module installed and enabled.', "error");
+    }
 });
 
 Hooks.on("renderPause", (app, html, options) => {
     if (options.paused) {
-        const img = html.find("img")[0];
-        img.src = game.settings.get("pause-customizer", "chooseFile");
+        const wrapper = $("#pause");
+        const img = $("#pause > img");
+        const caption = $("#pause > figcaption");
+        let pauseBackground = game.settings.get("pause-customizer", "pauseBackground");
+        let pauseImage = game.settings.get("pause-customizer", "chooseFile");
+        let animationDirection = game.settings.get("pause-customizer", "animationDirection");
+        let opacity = game.settings.get("pause-customizer", "opacity");
+        let animationDuration = game.settings.get("pause-customizer", "animationDuration");
+        let animationTiming = game.settings.get("pause-customizer", "animationTiming");
+        let pauseText = game.settings.get("pause-customizer", "pauseText");
+        let pauseTextFontFamily = game.settings.get("pause-customizer", "pauseTextFontFamily");
+        let pauseTextColor = game.settings.get("pause-customizer", "pauseTextColor");
+        let pauseTextFontSize = game.settings.get("pause-customizer", "pauseTextFontSize");
+        let pauseTextShadow = game.settings.get("pause-customizer", "pauseTextShadow");
 
-        let style = "--fa-animation-direction: " + game.settings.get("pause-customizer", "animationDirection") + ";";
-
-        if (game.settings.get("pause-customizer", "opacity") !== "") {
-            style += "opacity: " + game.settings.get("pause-customizer", "opacity") + ";";
+        // Compatibility fix for DnD5e
+        if (
+            game.data.system.id === "dnd5e" &&
+            foundry.utils.isNewerVersion(game.data.system.version, "2.4.1") &&
+            animationDirection !== "default" &&
+            animationDirection !== "none"
+        ) {
+            wrapper.removeClass("dnd5e2");
+            img.addClass("fa-spin");
         }
 
-        if (game.settings.get("pause-customizer", "animationDuration") !== "") {
-            style += "--fa-animation-duration: " + game.settings.get("pause-customizer", "animationDuration") + ";";
+        if (animationDirection === "none") {
+            img.removeClass("fa-spin");
         }
 
-        if (game.settings.get("pause-customizer", "animationTiming") !== "") {
-            style += "--fa-animation-timing: " + game.settings.get("pause-customizer", "animationTiming") + ";";
+        if (
+            pauseBackground !== "" &&
+            animationDirection !== "none"
+        ) {
+            if (pauseBackground !== "none") {
+                pauseBackground = "url(../" + pauseBackground + ")";
+            }
+            wrapper.css("background-image", pauseBackground);
         }
 
-        img.style = style;
+        if (pauseImage !== "") {
+            img.attr("src", pauseImage);
 
-        const caption = html.find("figcaption")[0];
-
-        if (game.settings.get("pause-customizer", "pauseText") !== "") {
-            caption.textContent = game.settings.get("pause-customizer", "pauseText");
+            // Compatiblity fix for Twilight: 2000 (4th Edition)
+            if (game.data.system.id === "t2k4e") {
+                img.css("content", "unset");
+            }
         }
 
-        style = "";
-
-        if (game.settings.get("pause-customizer", "pauseTextColor") !== "") {
-            style += "color:" + game.settings.get("pause-customizer", "pauseTextColor") + ";";
+        if (opacity !== "") {
+            img.css("opacity", opacity)
         }
 
-        if (game.settings.get("pause-customizer", "pauseTextFontSize") !== "") {
-            style += "font-size:" + game.settings.get("pause-customizer", "pauseTextFontSize") + ";";
+        if (animationDirection !== "Default") {
+            img.css("--fa-animation-direction", animationDirection)
         }
 
-        if (game.settings.get("pause-customizer", "pauseTextShadow") !== "") {
-            style += "text-shadow:" + game.settings.get("pause-customizer", "pauseTextShadow") + ";";
+        if (animationDuration !== "") {
+            img.css("--fa-animation-duration", animationDuration)
         }
 
-        caption.style = style;
+        if (animationTiming !== "") {
+            img.css("--fa-animation-timing", animationTiming)
+        }
+
+        if (pauseText !== "") {
+            caption.text(pauseText);
+        }
+
+        if (pauseTextFontFamily !== "") {
+            caption.css("font-family", pauseTextFontFamily);
+        }
+
+        if (pauseTextColor !== "") {
+            caption.css("color", pauseTextColor);
+        }
+
+        if (pauseTextFontSize !== "") {
+            caption.css("font-size", pauseTextFontSize);
+        }
+
+        if (pauseTextShadow !== "") {
+            caption.css("text-shadow", pauseTextShadow);
+        }
     }
-});
-
-Hooks.once('libChangelogsReady', function () {
-    libChangelogs.register(
-        "pause-customizer",
-        "<ul>" +
-        "<li>Add French translation.</li>" +
-        "<li>Allow customization of image opacity, text color, font-size and text-shadow.</li>" +
-        "</ul>",
-        "minor"
-    );
 });
