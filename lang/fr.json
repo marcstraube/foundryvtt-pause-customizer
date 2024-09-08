@@ -10,7 +10,7 @@
     "OPACITY": "Opacité",
     "OPACITY_HINT": "Définissez la valeur d'opacité de l'image (entre 0 et 1).",
     "PAUSE_BACKGROUND": "Sélectionner une image d'arrière-plan",
-    "PAUSE_BACKGROUND_HINT": "Modifiez l'image d'arrière-plan du bloc de pause. Sélectionnez une image à l'aide du sélecteur de fichiers. Laissez le champ vide pour utiliser le texte par défaut. L'image d'arrière-plan n'est utilisée que si l'animation de rotation est activée.",
+    "PAUSE_BACKGROUND_HINT": "Modifiez l'image d'arrière-plan du bloc de pause. Sélectionnez une image à l'aide du sélecteur de fichiers. Laissez le champ vide pour utiliser le texte par défaut. Attribuez la valeur \"none\" pour désactiver l'image d'arrière-plan. L'image d'arrière-plan n'est utilisée que si l'animation de rotation est activée.",
     "PAUSE_TEXT": "Texte de pause",
     "PAUSE_TEXT_HINT": "Modifiez le texte de pause. Laissez le champ vide pour utiliser le texte par défaut.",
     "PAUSE_TEXT_COLOR": "Couleur du texte de pause",

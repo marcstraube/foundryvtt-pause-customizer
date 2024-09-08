@@ -10,7 +10,7 @@
     "OPACITY": "Deckkraft",
     "OPACITY_HINT": "Setze den Deckkraft-Wert des Bildes (zwischen 0 und 1).",
     "PAUSE_BACKGROUND": "Hintergrundbild auswählen",
-    "PAUSE_BACKGROUND_HINT": "Ändere das Hintergrundbild des Pause-Blocks. Wähle über den Filepicker ein Bild aus. Feld leer lassen, um den Standardtext zu verwenden. Das Hintergrundbild wird nur genutzt, wenn die Dreh-Animation aktiviert ist.",
+    "PAUSE_BACKGROUND_HINT": "Ändere das Hintergrundbild des Pause-Blocks. Wähle über den Filepicker ein Bild aus. Feld leer lassen, um den Standardtext zu verwenden. Setze den Wert \"none\", um das Hintergrundbild zu deaktivieren. Das Hintergrundbild wird nur genutzt, wenn die Dreh-Animation aktiviert ist.",
     "PAUSE_TEXT": "Pause-Text",
     "PAUSE_TEXT_HINT": "Ändere den Pause-Text. Feld leer lassen, um den Standardtext zu verwenden.",
     "PAUSE_TEXT_COLOR": "Pause-Text Farbe",

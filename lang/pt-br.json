@@ -10,7 +10,7 @@
     "OPACITY": "Opacidade",
     "OPACITY_HINT": "Ajuste o nível de opacidade da imagem (entre 0 e 1).",
     "PAUSE_BACKGROUND": "Selecionar imagem de fundo",
-    "PAUSE_BACKGROUND_HINT": "Altere a imagem de fundo da área de pausa. Selecione uma imagem. Deixe este campo em branco para usar o texto padrão. A imagem de fundo só será exibida se a animação de rotação estiver ativada.",
+    "PAUSE_BACKGROUND_HINT": "Altere a imagem de fundo da área de pausa. Selecione uma imagem. Deixe este campo em branco para usar o texto padrão. Defina o valor como \"none\" para desabilitar a imagem de fundo. A imagem de fundo só será exibida se a animação de rotação estiver ativada.",
     "PAUSE_TEXT": "Texto de pausa",
     "PAUSE_TEXT_HINT": "Altere o texto exibido durante a pausa. Deixe este campo em branco para usar o texto padrão.",
     "PAUSE_TEXT_COLOR": "Cor do texto de pausa",

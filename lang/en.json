@@ -1,7 +1,7 @@
 {
   "PAUSE_CUSTOMIZER": {
     "ANIMATION_DIRECTION": "Animation direction",
-    "ANIMATION_DIRECTION_HINT": "Choose the direction of the rotation animation. Select \"Default\" to use the system standard (newer versions of the DnD5e system no longer use rotation). Select \"none\" to disable rotation.",
+    "ANIMATION_DIRECTION_HINT": "Choose the direction of the rotation animation. Select 'Default' to use the system standard (newer versions of the DnD5e system no longer use rotation). Select 'none' to disable rotation.",
     "ANIMATION_DURATION": "Animation duration",
     "ANIMATION_DURATION_HINT": "Choose the duration of the rotation animation. Leave the field empty to use the default value.",
     "ANIMATION_TIMING": "Animation timing",
@@ -10,7 +10,7 @@
     "OPACITY": "Opacity",
     "OPACITY_HINT": "Set the opacity value of the image (between 0 and 1).",
     "PAUSE_BACKGROUND": "Select background image",
-    "PAUSE_BACKGROUND_HINT": "Change the background image of the pause block. Select an image using the file picker. Leave the field empty to use the default text. The background image is only used if the rotation animation is enabled.",
+    "PAUSE_BACKGROUND_HINT": "Change the background image of the pause block. Select an image using the file picker. Leave the field empty to use the default text. Set the value to 'none' to disable the background image. The background image is only used if the rotation animation is enabled.",
     "PAUSE_TEXT": "Pause text",
     "PAUSE_TEXT_HINT": "Change the pause text. Leave the field empty to use the default text.",
     "PAUSE_TEXT_COLOR": "Pause text color",
