@@ -35,9 +35,16 @@ Hooks.on("setup", () => {
         requiresReload: false
 	});
 
-    let fonts = Object.keys(CONFIG.fontDefinitions).concat(
-        Object.keys(game.settings.get("core", "fonts"))
-    ).sort();
+    const fonts = Object.values({
+        ...Object.keys(CONFIG.fontDefinitions),
+        ...Object.keys(game.settings.get("core", "fonts"))
+    }).sort();
+    const sortedFonts = {
+        default: game.i18n.localize("PAUSE_CUSTOMIZER.DEFAULT")
+    };
+    Object.values(fonts).forEach(key => {
+        sortedFonts[key] = key;
+    });
 
     game.settings.register("pause-customizer", "pauseTextFontFamily", {
 		name: game.i18n.localize("PAUSE_CUSTOMIZER.PAUSE_TEXT_FONT_FAMILY"),
@@ -45,8 +52,8 @@ Hooks.on("setup", () => {
         scope: "world",
         config: true,
         type: String,
-        choices: fonts,
-        default: fonts.indexOf(CONFIG.defaultFontFamily),
+        choices: sortedFonts,
+        default: "default",
         requiresReload: false
 	});
 
