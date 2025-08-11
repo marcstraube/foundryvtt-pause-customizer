@@ -51,17 +51,24 @@
       "lang": "pt-BR",
       "name": "Português (Brasil)",
       "path": "lang/pt-br.json"
+    },
+    {
+      "lang": "it",
+      "name": "Italiano",
+      "path": "lang/it.json"
     }
   ],
   "relationships": {
-    "requires": [{
-      "id": "colorsettings",
-      "type": "module",
-      "manifest": "https://raw.githubusercontent.com/ardittristan/VTTColorSettings/3.0.3/module.json",
-      "compatibility": {
-        "verified": "3.0.3"
+    "requires": [
+      {
+        "id": "colorsettings",
+        "type": "module",
+        "manifest": "https://raw.githubusercontent.com/ardittristan/VTTColorSettings/3.0.3/module.json",
+        "compatibility": {
+          "verified": "3.0.3"
+        }
       }
-    }]
+    ]
   },
   "url": "This is auto replaced",
   "manifest": "This is auto replaced",
