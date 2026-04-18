@@ -1,5 +1,7 @@
 {
   "PAUSE_CUSTOMIZER": {
+    "BROWSE_FILES": "Browse files",
+    "BROWSE_FOLDER": "Browse folder",
     "ANIMATION_DIRECTION": "Animation direction",
     "ANIMATION_DIRECTION_HINT": "Direction of the rotation animation. 'None' removes the rotation.",
     "ANIMATION_DURATION": "Animation duration",
@@ -45,6 +47,6 @@
     "RESET_DEFAULTS": "Reset to Defaults",
     "RESET_DEFAULTS_DONE": "Pause Customizer settings reset to defaults.",
     "SELECT_IMAGE": "Pause icon",
-    "SELECT_IMAGE_HINT": "Image used as the pause icon."
+    "SELECT_IMAGE_HINT": "Image used as the pause icon. Use the folder button to select a folder for random images."
   }
 }

@@ -1,5 +1,7 @@
 {
   "PAUSE_CUSTOMIZER": {
+    "BROWSE_FILES": "Seleccionar archivo",
+    "BROWSE_FOLDER": "Seleccionar carpeta",
     "ANIMATION_DIRECTION": "Dirección de animación",
     "ANIMATION_DIRECTION_HINT": "Dirección de la animación de rotación. 'Ninguno' elimina la rotación.",
     "ANIMATION_DURATION": "Duración de la animación",
@@ -45,6 +47,6 @@
     "RESET_DEFAULTS": "Restablecer valores predeterminados",
     "RESET_DEFAULTS_DONE": "Configuración de Pause Customizer restablecida a los valores predeterminados.",
     "SELECT_IMAGE": "Icono de pausa",
-    "SELECT_IMAGE_HINT": "Imagen utilizada como icono de pausa."
+    "SELECT_IMAGE_HINT": "Imagen utilizada como icono de pausa. Use el botón de carpeta para seleccionar una carpeta de imágenes aleatorias."
   }
 }
