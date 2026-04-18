@@ -10,36 +10,41 @@
 
 [![Weblate Translation Status](https://weblate.foundryvtt-hub.com/widgets/pause-customizer/-/287x66-black.png)](https://weblate.foundryvtt-hub.com/engage/pause-customizer/)
 
-
 A small module to customize the pause image, animation style and pause text.
 
-This module is based on the [Custom Pause](https://gitlab.com/jestevens210/custom-pause/) module by John Stevens.
+This module is based on the
+[Custom Pause](https://gitlab.com/jestevens210/custom-pause/) module by John
+Stevens.
 
 ![FVTT Icon](images/custom-pause.gif)
 
-
 ## How to Use This Module
 
-- Open Module Settings: Select the path to the desired image, the animation settings and/or the pause text, then "Save Changes" and reload FoundryVtt.
+- Open Module Settings: Select the path to the desired image, the animation
+  settings and/or the pause text, then "Save Changes" and reload FoundryVtt.
 - Pause/Unpause: Use space bar to Pause/Unpause and see the new pause animation.
 
-For possible settings values and more information about them, see the follwing links:
-* [Animation Direction](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction)
-* [Animation Duration](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration)
-* [Animation Timing](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)
-* [Text Shadow](https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow)
+For possible settings values and more information about them, see the follwing
+links:
 
+- [Animation Direction](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-direction)
+- [Animation Duration](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-duration)
+- [Animation Timing](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)
+- [Text Shadow](https://developer.mozilla.org/en-US/docs/Web/CSS/text-shadow)
 
 ## Installation
 
 **Method 1:**
-* Start Foundry and head to the Add-on Modules tab.
-* Click Install Module.
-* Search for "Pause Customizer"
-* Click the **Install** button when it comes up.
+
+- Start Foundry and head to the Add-on Modules tab.
+- Click Install Module.
+- Search for "Pause Customizer"
+- Click the **Install** button when it comes up.
 
 **Method 2:**
-* Start Foundry and head to the Add-on Modules tab.
-* Click Install Module.
-* Paste the following link into the "Manifest URL" field at the bottom: <https://github.com/marcstraube/foundryvtt-pause-customizer/releases/latest/download/module.json>
-* Click **Install**.
+
+- Start Foundry and head to the Add-on Modules tab.
+- Click Install Module.
+- Paste the following link into the "Manifest URL" field at the bottom:
+  <https://github.com/marcstraube/foundryvtt-pause-customizer/releases/latest/download/module.json>
+- Click **Install**.

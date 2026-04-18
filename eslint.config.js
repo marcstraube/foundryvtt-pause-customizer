@@ -1,0 +1,210 @@
+import js from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
+import prettierPlugin from 'eslint-plugin-prettier';
+import importPlugin from 'eslint-plugin-import';
+
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
+
+export default [
+  // Ignore patterns
+  {
+    ignores: ['node_modules/**', 'dist/**', 'build/**', 'vendor/**', '*.min.js'],
+  },
+
+  // JavaScript files configuration
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        // FoundryVTT Core Globals
+        game: 'readonly',
+        ui: 'readonly',
+        canvas: 'readonly',
+        CONFIG: 'readonly',
+        CONST: 'readonly',
+        foundry: 'readonly',
+
+        // FoundryVTT Utilities
+        duplicate: 'readonly',
+        mergeObject: 'readonly',
+        expandObject: 'readonly',
+        flattenObject: 'readonly',
+        diffObject: 'readonly',
+        getProperty: 'readonly',
+        setProperty: 'readonly',
+        hasProperty: 'readonly',
+        fromUuid: 'readonly',
+        loadTemplates: 'readonly',
+        renderTemplate: 'readonly',
+        getTemplate: 'readonly',
+
+        // FoundryVTT Classes - Applications
+        Application: 'readonly',
+        FormApplication: 'readonly',
+        Dialog: 'readonly',
+        FilePicker: 'readonly',
+        ImagePopout: 'readonly',
+
+        // FoundryVTT Classes - Documents
+        Actor: 'readonly',
+        Item: 'readonly',
+        Scene: 'readonly',
+        ChatMessage: 'readonly',
+        Macro: 'readonly',
+        Playlist: 'readonly',
+        User: 'readonly',
+        Folder: 'readonly',
+        Combat: 'readonly',
+        RollTable: 'readonly',
+        JournalEntry: 'readonly',
+
+        // FoundryVTT Classes - Misc
+        Hooks: 'readonly',
+        Roll: 'readonly',
+
+        // Third-party Libraries (loaded by Foundry)
+        PIXI: 'readonly',
+        Handlebars: 'readonly',
+        io: 'readonly',
+      },
+    },
+    plugins: {
+      prettier: prettierPlugin,
+      import: importPlugin,
+    },
+    rules: {
+      // Base JavaScript recommended rules
+      ...js.configs.recommended.rules,
+
+      // Prettier integration
+      'prettier/prettier': 'error',
+
+      // Import plugin rules
+      'import/extensions': 'off',
+      'import/no-unresolved': 'off',
+      'import/prefer-default-export': 'off',
+
+      // Security rules
+      'no-eval': 'error',
+
+      // Foundry-specific adjustments
+      'no-underscore-dangle': 'off',
+
+      // Code quality
+      'no-console': ['warn', { allow: ['error'] }],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+
+      // Style preferences (aligned with Prettier)
+      'no-param-reassign': 'off',
+      'no-plusplus': 'off',
+      'prefer-destructuring': 'off',
+    },
+  },
+
+  // TypeScript files configuration
+  {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: 'module',
+        project: './tsconfig.json',
+      },
+      globals: {
+        // FoundryVTT Core Globals
+        game: 'readonly',
+        ui: 'readonly',
+        canvas: 'readonly',
+        CONFIG: 'readonly',
+        CONST: 'readonly',
+        foundry: 'readonly',
+
+        // FoundryVTT Utilities
+        duplicate: 'readonly',
+        mergeObject: 'readonly',
+        expandObject: 'readonly',
+        flattenObject: 'readonly',
+        diffObject: 'readonly',
+        getProperty: 'readonly',
+        setProperty: 'readonly',
+        hasProperty: 'readonly',
+        fromUuid: 'readonly',
+        loadTemplates: 'readonly',
+        renderTemplate: 'readonly',
+        getTemplate: 'readonly',
+
+        // FoundryVTT Classes - Applications
+        Application: 'readonly',
+        FormApplication: 'readonly',
+        Dialog: 'readonly',
+        FilePicker: 'readonly',
+        ImagePopout: 'readonly',
+
+        // FoundryVTT Classes - Documents
+        Actor: 'readonly',
+        Item: 'readonly',
+        Scene: 'readonly',
+        ChatMessage: 'readonly',
+        Macro: 'readonly',
+        Playlist: 'readonly',
+        User: 'readonly',
+        Folder: 'readonly',
+        Combat: 'readonly',
+        RollTable: 'readonly',
+        JournalEntry: 'readonly',
+
+        // FoundryVTT Classes - Misc
+        Hooks: 'readonly',
+        Roll: 'readonly',
+
+        // Third-party Libraries (loaded by Foundry)
+        PIXI: 'readonly',
+        Handlebars: 'readonly',
+        io: 'readonly',
+      },
+    },
+    plugins: {
+      '@typescript-eslint': tseslint,
+      prettier: prettierPlugin,
+      import: importPlugin,
+    },
+    rules: {
+      // Base TypeScript recommended rules
+      ...tseslint.configs.recommended.rules,
+
+      // Prettier integration
+      'prettier/prettier': 'error',
+
+      // TypeScript-specific rules
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+
+      // Import plugin rules
+      'import/extensions': 'off',
+      'import/no-unresolved': 'off',
+      'import/prefer-default-export': 'off',
+
+      // Security rules
+      'no-eval': 'error',
+
+      // Foundry-specific adjustments
+      'no-underscore-dangle': 'off',
+
+      // Code quality
+      'no-console': ['warn', { allow: ['error'] }],
+    },
+  },
+
+  // Prettier config last (disables conflicting rules)
+  prettierConfig,
+];

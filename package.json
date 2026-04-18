@@ -1,0 +1,48 @@
+{
+  "name": "pause-customizer",
+  "version": "0.0.1",
+  "description": "A small module to customize the pause image, animation style and pause text.",
+  "type": "module",
+  "main": "dist/pause-customizer.js",
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite build --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm exec eslint src/**/*.ts",
+    "lint:fix": "pnpm exec eslint src/**/*.ts --fix",
+    "format": "pnpm exec prettier --write \"**/*.{js,ts,json,md}\"",
+    "format:check": "pnpm exec prettier --check \"**/*.{js,ts,json,md}\"",
+    "knip": "pnpm exec knip",
+    "link:foundry": "ln -sf $PWD ~/.local/share/FoundryVTT/Data/modules/pause-customizer && echo 'Symlink created! Start Foundry and enable the module.'",
+    "prepare": "husky || true"
+  },
+  "packageManager": "pnpm@9.15.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcstraube/foundryvtt-pause-customizer.git"
+  },
+  "author": "Marc Straube",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marcstraube/foundryvtt-pause-customizer/issues"
+  },
+  "homepage": "https://github.com/marcstraube/foundryvtt-pause-customizer#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "^10.0.1",
+    "@league-of-foundry-developers/foundry-vtt-types": "13.346.0-beta.20251209192131",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.0.0",
+    "knip": "^6.3.1",
+    "lint-staged": "^16.0.1",
+    "prettier": "^3.4.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.8"
+  }
+}
