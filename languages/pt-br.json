@@ -47,6 +47,6 @@
     "RESET_DEFAULTS": "Restaurar padrões",
     "RESET_DEFAULTS_DONE": "Configurações do Pause Customizer restauradas para os valores padrão.",
     "SELECT_IMAGE": "Ícone de pausa",
-    "SELECT_IMAGE_HINT": "Imagem utilizada como ícone de pausa. Use o botão de pasta para selecionar uma pasta de imagens aleatórias."
+    "SELECT_IMAGE_HINT": "Imagem ou vídeo utilizado como ícone de pausa. Use o botão de pasta para selecionar uma pasta de imagens aleatórias. Vídeos requerem formato WebM no aplicativo desktop do Foundry."
   }
 }

@@ -34,12 +34,13 @@ let directoryImages: string[] = [];
  */
 async function loadDirectoryImages(path: string): Promise<void> {
   directoryImages = [];
-  if (!path || /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?)$/i.test(path)) return;
+  if (!path || /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?|mp4|webm|ogg)$/i.test(path)) return;
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await (FilePicker as any).browse('data', path);
+    const FP = (foundry as any).applications.apps.FilePicker.implementation;
+    const result = await FP.browse('data', path);
     directoryImages = (result.files as string[]).filter((f: string) =>
-      /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?)$/i.test(f)
+      /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?|mp4|webm|ogg)$/i.test(f)
     );
   } catch {
     directoryImages = [];
@@ -61,7 +62,7 @@ Hooks.once('init', () => {
     config: true,
     type: String,
     default: '',
-    filePicker: 'image',
+    filePicker: 'imagevideo',
     requiresReload: false,
   });
 
@@ -316,13 +317,13 @@ Hooks.once('setup', () => {
 });
 
 // Re-render the pause overlay whenever our settings change
-Hooks.on('updateSetting', (setting: { key?: string }) => {
+Hooks.on('updateSetting', async (setting: { key?: string }) => {
   if (setting.key?.startsWith(`${MODULE_ID}.`)) {
     // Refresh directory image cache when the icon path changes
     if (setting.key === `${MODULE_ID}.${SETTINGS.CHOOSE_FILE}`) {
       const settings = game.settings as unknown as FoundrySettings;
       const pauseImage = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
-      loadDirectoryImages(pauseImage);
+      await loadDirectoryImages(pauseImage);
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
@@ -535,7 +536,8 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
           'input[type="text"]'
         ) as HTMLInputElement | null;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        new (FilePicker as any)({
+        const FP = (foundry as any).applications.apps.FilePicker.implementation;
+        new FP({
           type: 'folder',
           callback: (path: string) => {
             if (innerInput) {
@@ -667,7 +669,7 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     if (!context.cssClass?.includes('paused')) return;
 
     const settings = game.settings as unknown as FoundrySettings;
-    const img = element.querySelector('img') as HTMLElement | null;
+    let img = element.querySelector('img') as HTMLElement | null;
     const caption = element.querySelector('figcaption') as HTMLElement | null;
     if (!img || !caption) return;
 
@@ -739,13 +741,39 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     const pauseBackground = settings.get(MODULE_ID, SETTINGS.PAUSE_BACKGROUND) as string;
     const pauseBackgroundImage = settings.get(MODULE_ID, SETTINGS.PAUSE_BACKGROUND_IMAGE) as string;
 
-    // --- Image ---
+    // --- Image / Video ---
 
+    let resolvedSrc = '';
     if (directoryImages.length > 0) {
-      const randomImage = directoryImages[Math.floor(Math.random() * directoryImages.length)]!;
-      img.setAttribute('src', randomImage);
+      resolvedSrc = directoryImages[Math.floor(Math.random() * directoryImages.length)]!;
     } else if (pauseImage) {
-      img.setAttribute('src', pauseImage);
+      resolvedSrc = pauseImage;
+    }
+
+    if (resolvedSrc && /\.(mp4|webm|ogg)$/i.test(resolvedSrc)) {
+      const video = document.createElement('video');
+      // Set muted before src — required for autoplay policy
+      video.setAttribute('muted', '');
+      video.muted = true;
+      video.autoplay = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.className = img.className;
+      video.style.objectFit = 'contain';
+      // Copy computed styles from img since CSS rules target img, not video
+      const cs = getComputedStyle(img);
+      video.style.position = cs.position;
+      video.style.top = cs.top;
+      video.style.left = cs.left;
+      video.style.width = cs.width;
+      video.style.height = cs.height;
+      video.style.opacity = cs.opacity;
+      img.replaceWith(video);
+      video.src = resolvedSrc;
+      video.play().catch(() => {});
+      img = video;
+    } else if (resolvedSrc) {
+      img.setAttribute('src', resolvedSrc);
     }
 
     if (imageWidth) {

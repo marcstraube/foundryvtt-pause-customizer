@@ -47,6 +47,6 @@
     "RESET_DEFAULTS": "デフォルトに戻す",
     "RESET_DEFAULTS_DONE": "Pause Customizerの設定がデフォルトにリセットされました。",
     "SELECT_IMAGE": "一時停止アイコン",
-    "SELECT_IMAGE_HINT": "一時停止アイコンとして使用する画像。フォルダボタンでランダム画像用のフォルダを選択できます。"
+    "SELECT_IMAGE_HINT": "一時停止アイコンとして使用する画像または動画。フォルダボタンでランダム画像用のフォルダを選択できます。Foundryデスクトップアプリでは動画にWebM形式が必要です。"
   }
 }

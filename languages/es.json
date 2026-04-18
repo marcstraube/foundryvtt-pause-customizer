@@ -47,6 +47,6 @@
     "RESET_DEFAULTS": "Restablecer valores predeterminados",
     "RESET_DEFAULTS_DONE": "Configuración de Pause Customizer restablecida a los valores predeterminados.",
     "SELECT_IMAGE": "Icono de pausa",
-    "SELECT_IMAGE_HINT": "Imagen utilizada como icono de pausa. Use el botón de carpeta para seleccionar una carpeta de imágenes aleatorias."
+    "SELECT_IMAGE_HINT": "Imagen o video utilizado como icono de pausa. Use el botón de carpeta para seleccionar una carpeta de imágenes aleatorias. Los videos requieren formato WebM en la aplicación de escritorio de Foundry."
   }
 }
