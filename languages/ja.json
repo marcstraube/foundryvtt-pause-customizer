@@ -1,5 +1,7 @@
 {
   "PAUSE_CUSTOMIZER": {
+    "BROWSE_FILES": "ファイルを参照",
+    "BROWSE_FOLDER": "フォルダを参照",
     "ANIMATION_DIRECTION": "アニメーション方向",
     "ANIMATION_DIRECTION_HINT": "回転アニメーションの方向。「なし」で回転を削除します。",
     "ANIMATION_DURATION": "アニメーション時間",
@@ -45,6 +47,6 @@
     "RESET_DEFAULTS": "デフォルトに戻す",
     "RESET_DEFAULTS_DONE": "Pause Customizerの設定がデフォルトにリセットされました。",
     "SELECT_IMAGE": "一時停止アイコン",
-    "SELECT_IMAGE_HINT": "一時停止アイコンとして使用する画像。"
+    "SELECT_IMAGE_HINT": "一時停止アイコンとして使用する画像。フォルダボタンでランダム画像用のフォルダを選択できます。"
   }
 }

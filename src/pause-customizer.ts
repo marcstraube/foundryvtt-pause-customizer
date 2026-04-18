@@ -25,6 +25,27 @@ interface GamePauseContext {
  */
 const systemDefaults: { icon?: string; text?: string; cssSnapshot?: Record<string, string> } = {};
 
+/** Cached list of image files when chooseFile points to a directory. */
+let directoryImages: string[] = [];
+
+/**
+ * Load image files from a directory for random pause image selection.
+ * If the path is a file (has image extension) or empty, the cache is cleared.
+ */
+async function loadDirectoryImages(path: string): Promise<void> {
+  directoryImages = [];
+  if (!path || /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?)$/i.test(path)) return;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await (FilePicker as any).browse('data', path);
+    directoryImages = (result.files as string[]).filter((f: string) =>
+      /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?)$/i.test(f)
+    );
+  } catch {
+    directoryImages = [];
+  }
+}
+
 // Register all settings that don't depend on runtime data
 Hooks.once('init', () => {
   const settings = game.settings as unknown as FoundrySettings;
@@ -297,9 +318,29 @@ Hooks.once('setup', () => {
 // Re-render the pause overlay whenever our settings change
 Hooks.on('updateSetting', (setting: { key?: string }) => {
   if (setting.key?.startsWith(`${MODULE_ID}.`)) {
+    // Refresh directory image cache when the icon path changes
+    if (setting.key === `${MODULE_ID}.${SETTINGS.CHOOSE_FILE}`) {
+      const settings = game.settings as unknown as FoundrySettings;
+      const pauseImage = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
+      loadDirectoryImages(pauseImage);
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
     pause?.render?.({ force: true });
+  }
+});
+
+// Load directory image cache on startup
+Hooks.once('ready', async () => {
+  const settings = game.settings as unknown as FoundrySettings;
+  const pauseImage = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
+  if (pauseImage) {
+    await loadDirectoryImages(pauseImage);
+    if (directoryImages.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
+      pause?.render?.({ force: true });
+    }
   }
 });
 
@@ -468,6 +509,44 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     const picker = html.querySelector(`[name="${MODULE_ID}.${key}"]`) as HTMLElement | null;
     const innerInput = picker?.querySelector('input[type="text"]') as HTMLInputElement | null;
     if (innerInput) innerInput.placeholder = defaultVal;
+  }
+
+  // Add folder browse button next to the chooseFile file picker
+  const chooseFilePicker = html.querySelector(
+    `[name="${MODULE_ID}.${SETTINGS.CHOOSE_FILE}"]`
+  ) as HTMLElement | null;
+  if (chooseFilePicker) {
+    const fileButton = chooseFilePicker.querySelector('button') as HTMLButtonElement | null;
+    if (fileButton) {
+      const folderButton = document.createElement('button');
+      folderButton.type = 'button';
+      folderButton.innerHTML = '<i class="fa-solid fa-folder-open"></i>';
+      fileButton.setAttribute(
+        'data-tooltip',
+        game.i18n?.localize(I18N_KEYS.BROWSE_FILES) ?? 'Browse files'
+      );
+      folderButton.setAttribute(
+        'data-tooltip',
+        game.i18n?.localize(I18N_KEYS.BROWSE_FOLDER) ?? 'Browse folder'
+      );
+      folderButton.addEventListener('click', (event: MouseEvent) => {
+        event.preventDefault();
+        const innerInput = chooseFilePicker.querySelector(
+          'input[type="text"]'
+        ) as HTMLInputElement | null;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        new (FilePicker as any)({
+          type: 'folder',
+          callback: (path: string) => {
+            if (innerInput) {
+              innerInput.value = path;
+              innerInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+          },
+        }).browse();
+      });
+      fileButton.after(folderButton);
+    }
   }
 
   // Replace background input with textarea for longer CSS values
@@ -662,7 +741,10 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
 
     // --- Image ---
 
-    if (pauseImage) {
+    if (directoryImages.length > 0) {
+      const randomImage = directoryImages[Math.floor(Math.random() * directoryImages.length)]!;
+      img.setAttribute('src', randomImage);
+    } else if (pauseImage) {
       img.setAttribute('src', pauseImage);
     }
 
