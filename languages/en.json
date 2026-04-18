@@ -47,6 +47,6 @@
     "RESET_DEFAULTS": "Reset to Defaults",
     "RESET_DEFAULTS_DONE": "Pause Customizer settings reset to defaults.",
     "SELECT_IMAGE": "Pause icon",
-    "SELECT_IMAGE_HINT": "Image used as the pause icon. Use the folder button to select a folder for random images."
+    "SELECT_IMAGE_HINT": "Image or video used as the pause icon. Use the folder button to select a folder for random images. Videos require WebM format in the Foundry desktop app."
   }
 }

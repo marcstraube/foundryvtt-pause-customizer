@@ -47,6 +47,6 @@
     "RESET_DEFAULTS": "Auf Standardwerte zurücksetzen",
     "RESET_DEFAULTS_DONE": "Pause Customizer Einstellungen auf Standardwerte zurückgesetzt.",
     "SELECT_IMAGE": "Pause-Icon",
-    "SELECT_IMAGE_HINT": "Bild für das Pause-Icon. Über den Ordner-Button einen Ordner für zufällige Bilder auswählen."
+    "SELECT_IMAGE_HINT": "Bild oder Video für das Pause-Icon. Über den Ordner-Button einen Ordner für zufällige Bilder auswählen. Videos benötigen WebM-Format in der Foundry Desktop-App."
   }
 }
