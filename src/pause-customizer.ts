@@ -171,6 +171,28 @@ Hooks.once('init', () => {
     requiresReload: false,
   });
 
+  // --- Position Settings ---
+
+  settings.register(MODULE_ID, SETTINGS.IMAGE_MARGIN_TOP, {
+    name: game.i18n?.localize(I18N_KEYS.IMAGE_MARGIN_TOP) ?? 'Icon vertical offset',
+    hint: game.i18n?.localize(I18N_KEYS.IMAGE_MARGIN_TOP_HINT) ?? '',
+    scope: 'world',
+    config: true,
+    type: String,
+    default: '',
+    requiresReload: false,
+  });
+
+  settings.register(MODULE_ID, SETTINGS.PAUSE_TEXT_MARGIN_TOP, {
+    name: game.i18n?.localize(I18N_KEYS.PAUSE_TEXT_MARGIN_TOP) ?? 'Text vertical offset',
+    hint: game.i18n?.localize(I18N_KEYS.PAUSE_TEXT_MARGIN_TOP_HINT) ?? '',
+    scope: 'world',
+    config: true,
+    type: String,
+    default: '',
+    requiresReload: false,
+  });
+
   // --- Animation Settings ---
 
   settings.register(MODULE_ID, SETTINGS.ANIMATION_DIRECTION, {
@@ -424,6 +446,8 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     SETTINGS.PAUSE_TEXT_FONT_SIZE,
     SETTINGS.PAUSE_TEXT_LETTER_SPACING,
     SETTINGS.PAUSE_TEXT_SHADOW,
+    SETTINGS.IMAGE_MARGIN_TOP,
+    SETTINGS.PAUSE_TEXT_MARGIN_TOP,
     SETTINGS.ANIMATION_DURATION,
     SETTINGS.PAUSE_BACKGROUND,
   ];
@@ -490,6 +514,8 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
       SETTINGS.PAUSE_TEXT_FONT_SIZE,
       SETTINGS.PAUSE_TEXT_LETTER_SPACING,
       SETTINGS.PAUSE_TEXT_SHADOW,
+      SETTINGS.IMAGE_MARGIN_TOP,
+      SETTINGS.PAUSE_TEXT_MARGIN_TOP,
       SETTINGS.ANIMATION_DURATION,
       SETTINGS.PAUSE_BACKGROUND,
       SETTINGS.PAUSE_BACKGROUND_IMAGE,
@@ -608,6 +634,8 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     caption.style.removeProperty('text-transform');
     caption.style.removeProperty('letter-spacing');
     caption.style.removeProperty('text-shadow');
+    img.style.removeProperty('margin-top');
+    caption.style.removeProperty('margin-top');
 
     const pauseImage = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
     const imageWidth = settings.get(MODULE_ID, SETTINGS.IMAGE_WIDTH) as string;
@@ -627,6 +655,8 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     const animationDirection = settings.get(MODULE_ID, SETTINGS.ANIMATION_DIRECTION) as string;
     const animationDuration = settings.get(MODULE_ID, SETTINGS.ANIMATION_DURATION) as string;
     const animationTiming = settings.get(MODULE_ID, SETTINGS.ANIMATION_TIMING) as string;
+    const imageMarginTop = settings.get(MODULE_ID, SETTINGS.IMAGE_MARGIN_TOP) as string;
+    const pauseTextMarginTop = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_MARGIN_TOP) as string;
     const pauseBackground = settings.get(MODULE_ID, SETTINGS.PAUSE_BACKGROUND) as string;
     const pauseBackgroundImage = settings.get(MODULE_ID, SETTINGS.PAUSE_BACKGROUND_IMAGE) as string;
 
@@ -707,6 +737,16 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
 
     if (pauseTextShadow) {
       caption.style.textShadow = pauseTextShadow;
+    }
+
+    // --- Position ---
+
+    if (imageMarginTop) {
+      img.style.marginTop = imageMarginTop;
+    }
+
+    if (pauseTextMarginTop) {
+      caption.style.marginTop = pauseTextMarginTop;
     }
   }
 );
