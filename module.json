@@ -20,7 +20,9 @@
     "verified": "14",
     "maximum": "14"
   },
-  "esmodules": ["./dist/pause-customizer.js"],
+  "esmodules": [
+    "./dist/pause-customizer.js"
+  ],
   "languages": [
     {
       "lang": "de",
@@ -51,6 +53,11 @@
       "lang": "pt-BR",
       "name": "Português (Brasil)",
       "path": "languages/pt-br.json"
+    },
+    {
+      "lang": "ru",
+      "name": "Русский",
+      "path": "languages/ru.json"
     }
   ],
   "relationships": {},
