@@ -9,6 +9,7 @@ exclude-labels:
   - 'dependencies'
 exclude-contributors:
   - 'dependabot[bot]'
+  - 'app/dependabot'
 categories:
   - title: 'Features'
     labels:
