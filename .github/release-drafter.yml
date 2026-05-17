@@ -1,5 +1,12 @@
 name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
+exclude-labels:
+  - 'chore'
+  - 'ci'
+  - 'build'
+  - 'test'
+  - 'style'
+  - 'dependencies'
 categories:
   - title: 'Features'
     labels:
@@ -32,25 +39,6 @@ categories:
     labels:
       - 'security'
     collapse-after: 5
-  - title: 'Build & CI'
-    labels:
-      - 'build'
-      - 'ci'
-      - 'chore'
-    collapse-after: 5
-  - title: 'Tests'
-    labels:
-      - 'test'
-      - 'tests'
-    collapse-after: 5
-  - title: 'Code Style'
-    labels:
-      - 'style'
-    collapse-after: 5
-category-template: |
-  ### $TITLE
-
-  $CHANGES
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&'
 version-resolver:
