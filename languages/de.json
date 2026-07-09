@@ -47,6 +47,6 @@
     "RESET_DEFAULTS": "Auf Standardwerte zurücksetzen",
     "RESET_DEFAULTS_DONE": "Pause Customizer Einstellungen auf Standardwerte zurückgesetzt.",
     "SELECT_IMAGE": "Pause-Icon",
-    "SELECT_IMAGE_HINT": "Bild oder Video für das Pause-Icon. Über den Ordner-Button einen Ordner für zufällige Bilder auswählen. Videos benötigen WebM-Format in der Foundry Desktop-App."
+    "SELECT_IMAGE_HINT": "Bild oder Video für das Pause-Icon. Über den Ordner-Button einen Ordner für zufällige Bilder auswählen. Für Videos in der Foundry Desktop-App H.264 (MP4) oder WebM verwenden — HEVC/H.265 wird nicht unterstützt."
   }
 }

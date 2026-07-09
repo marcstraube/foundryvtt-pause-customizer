@@ -6,6 +6,7 @@ import { MODULE_ID, SETTINGS, DEFAULTS, I18N_KEYS } from './constants.js';
 interface FoundrySettings {
   register(module: string, key: string, data: Record<string, unknown>): void;
   get(module: string, key: string): unknown;
+  set(module: string, key: string, value: unknown): Promise<unknown>;
 }
 
 /**
@@ -25,26 +26,49 @@ interface GamePauseContext {
  */
 const systemDefaults: { icon?: string; text?: string; cssSnapshot?: Record<string, string> } = {};
 
-/** Cached list of image files when chooseFile points to a directory. */
-let directoryImages: string[] = [];
+/** Matches supported image and video file extensions. */
+const MEDIA_EXTENSION = /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?|mp4|webm|ogg)$/i;
+
+/** Matches supported video file extensions (subset of MEDIA_EXTENSION). */
+const VIDEO_EXTENSION = /\.(mp4|webm|ogg)$/i;
 
 /**
- * Load image files from a directory for random pause image selection.
- * If the path is a file (has image extension) or empty, the cache is cleared.
+ * Browse a directory and return the contained image/video files.
+ * Returns an empty array for a file path, an empty directory, or when browsing
+ * fails (e.g. the user lacks permission).
  */
-async function loadDirectoryImages(path: string): Promise<void> {
-  directoryImages = [];
-  if (!path || /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?|mp4|webm|ogg)$/i.test(path)) return;
+async function browseDirectoryImages(path: string): Promise<string[]> {
+  if (!path || MEDIA_EXTENSION.test(path)) return [];
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const FP = (foundry as any).applications.apps.FilePicker.implementation;
     const result = await FP.browse('data', path);
-    directoryImages = (result.files as string[]).filter((f: string) =>
-      /\.(jpg|jpeg|png|gif|svg|webp|avif|bmp|tiff?|mp4|webm|ogg)$/i.test(f)
-    );
+    return (result.files as string[]).filter((f: string) => MEDIA_EXTENSION.test(f));
   } catch {
-    directoryImages = [];
+    return [];
   }
+}
+
+/**
+ * GM-only: resolve the configured chooseFile path to a concrete image and store
+ * it in the SELECTED_IMAGE world setting, so that every client renders the same
+ * file. For a directory a random image is rolled; single files render directly
+ * from chooseFile (handled in the render hook), so the selection is cleared.
+ */
+async function updateSelectedImage(): Promise<void> {
+  if (!game.user?.isGM) return;
+  const settings = game.settings as unknown as FoundrySettings;
+  const chooseFile = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
+
+  let selected = '';
+  if (chooseFile && !MEDIA_EXTENSION.test(chooseFile)) {
+    const files = await browseDirectoryImages(chooseFile);
+    if (files.length > 0) {
+      selected = files[Math.floor(Math.random() * files.length)]!;
+    }
+  }
+
+  await settings.set(MODULE_ID, SETTINGS.SELECTED_IMAGE, selected);
 }
 
 // Register all settings that don't depend on runtime data
@@ -63,6 +87,17 @@ Hooks.once('init', () => {
     type: String,
     default: '',
     filePicker: 'imagevideo',
+    requiresReload: false,
+  });
+
+  // Hidden shared selection so every client renders the same image. Holds the
+  // GM-resolved random pick for a directory; empty for single files (rendered
+  // directly from chooseFile) or when no directory image is available.
+  settings.register(MODULE_ID, SETTINGS.SELECTED_IMAGE, {
+    scope: 'world',
+    config: false,
+    type: String,
+    default: '',
     requiresReload: false,
   });
 
@@ -318,31 +353,39 @@ Hooks.once('setup', () => {
 
 // Re-render the pause overlay whenever our settings change
 Hooks.on('updateSetting', async (setting: { key?: string }) => {
-  if (setting.key?.startsWith(`${MODULE_ID}.`)) {
-    // Refresh directory image cache when the icon path changes
-    if (setting.key === `${MODULE_ID}.${SETTINGS.CHOOSE_FILE}`) {
-      const settings = game.settings as unknown as FoundrySettings;
-      const pauseImage = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
-      await loadDirectoryImages(pauseImage);
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
-    pause?.render?.({ force: true });
+  if (!setting.key?.startsWith(`${MODULE_ID}.`)) return;
+
+  // Icon path changed while paused: the GM immediately re-resolves the shared
+  // image so the visible overlay updates at once (an unpaused change is
+  // resolved on the next pauseGame instead).
+  if (setting.key === `${MODULE_ID}.${SETTINGS.CHOOSE_FILE}` && game.user?.isGM && game.paused) {
+    await updateSelectedImage();
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
+  pause?.render?.({ force: true });
+});
+
+// On startup of an already-paused world, the GM resolves the shared image only
+// if none is set yet (e.g. a directory configured while unpaused, or a world
+// upgraded to this version). A valid existing selection is kept, so a GM simply
+// logging in does not change the image players are already seeing.
+Hooks.once('ready', async () => {
+  if (!game.user?.isGM || !game.paused) return;
+  const settings = game.settings as unknown as FoundrySettings;
+  const selected = settings.get(MODULE_ID, SETTINGS.SELECTED_IMAGE) as string;
+  const chooseFile = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
+  if (!selected && chooseFile && !MEDIA_EXTENSION.test(chooseFile)) {
+    await updateSelectedImage();
   }
 });
 
-// Load directory image cache on startup
-Hooks.once('ready', async () => {
-  const settings = game.settings as unknown as FoundrySettings;
-  const pauseImage = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
-  if (pauseImage) {
-    await loadDirectoryImages(pauseImage);
-    if (directoryImages.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
-      pause?.render?.({ force: true });
-    }
-  }
+// Roll a new shared random image each time the game is paused. Only the GM
+// writes it; the resulting SELECTED_IMAGE change re-renders every client with
+// the same image. Non-GM clients simply render the GM's selection.
+Hooks.on('pauseGame', async (paused: boolean) => {
+  if (paused) await updateSelectedImage();
 });
 
 /**
@@ -743,14 +786,18 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
 
     // --- Image / Video ---
 
+    // Prefer the GM-resolved shared selection (random pick for a directory) so
+    // every client renders the same image. For a single file the selection is
+    // empty and we render chooseFile directly (no browse permission needed).
     let resolvedSrc = '';
-    if (directoryImages.length > 0) {
-      resolvedSrc = directoryImages[Math.floor(Math.random() * directoryImages.length)]!;
-    } else if (pauseImage) {
+    const selectedImage = settings.get(MODULE_ID, SETTINGS.SELECTED_IMAGE) as string;
+    if (selectedImage) {
+      resolvedSrc = selectedImage;
+    } else if (pauseImage && MEDIA_EXTENSION.test(pauseImage)) {
       resolvedSrc = pauseImage;
     }
 
-    if (resolvedSrc && /\.(mp4|webm|ogg)$/i.test(resolvedSrc)) {
+    if (resolvedSrc && VIDEO_EXTENSION.test(resolvedSrc)) {
       const video = document.createElement('video');
       // Set muted before src — required for autoplay policy
       video.setAttribute('muted', '');
@@ -770,7 +817,18 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
       video.style.opacity = cs.opacity;
       img.replaceWith(video);
       video.src = resolvedSrc;
-      video.play().catch(() => {});
+      // Play via Foundry's VideoHelper so playback respects the client autoplay
+      // policy. The desktop (Electron) client blocks raw autoplay until the
+      // first user gesture; the helper queues the video and starts it then. The
+      // `autoplay` attribute still gives immediate playback in browsers.
+      video.addEventListener(
+        'loadedmetadata',
+        () => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          void (game as any).video?.play?.(video, { volume: 0 });
+        },
+        { once: true }
+      );
       img = video;
     } else if (resolvedSrc) {
       img.setAttribute('src', resolvedSrc);

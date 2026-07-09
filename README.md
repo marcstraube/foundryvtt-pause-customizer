@@ -68,9 +68,10 @@ game is paused. Use the folder button next to the file picker.
 Videos can be used as the pause icon instead of a static image. Supported
 formats: mp4, webm, ogg.
 
-> **Note:** The Foundry desktop app (Electron) requires **WebM format** for
-> video playback due to codec limitations. MP4 works when accessing Foundry via
-> a web browser.
+> **Note:** The Foundry desktop app (Electron) cannot decode **HEVC/H.265**
+> video. Use **H.264 (MP4)** or **WebM** for videos that play in both the
+> desktop app and web browsers. Browsers can play HEVC via the operating
+> system's decoder; the desktop app cannot.
 
 ## How to Use
 
