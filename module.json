@@ -17,7 +17,7 @@
   "version": "This is auto replaced",
   "compatibility": {
     "minimum": "14",
-    "verified": "14",
+    "verified": "14.360",
     "maximum": "14"
   },
   "esmodules": ["./dist/pause-customizer.js"],
