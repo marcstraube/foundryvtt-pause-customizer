@@ -25,6 +25,12 @@ export const SETTINGS = {
   PAUSE_TEXT_MARGIN_TOP: 'pauseTextMarginTop',
   PAUSE_BACKGROUND: 'pauseBackground',
   PAUSE_BACKGROUND_IMAGE: 'pauseBackgroundImage',
+  /**
+   * Hidden world setting holding the currently selected image. Resolved by the
+   * GM from chooseFile (a random pick for a directory) on pause / directory
+   * change, so that every client renders the same image.
+   */
+  SELECTED_IMAGE: 'selectedImage',
 } as const;
 
 /**
