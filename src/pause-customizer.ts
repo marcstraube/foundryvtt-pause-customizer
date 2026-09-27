@@ -815,6 +815,8 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
       video.style.width = cs.width;
       video.style.height = cs.height;
       video.style.opacity = cs.opacity;
+      video.style.border = "none";
+      video.style.boxShadow = "none";
       img.replaceWith(video);
       video.src = resolvedSrc;
       // Play via Foundry's VideoHelper so playback respects the client autoplay
