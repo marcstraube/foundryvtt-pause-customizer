@@ -17,6 +17,8 @@
     "IMAGE_HEIGHT_HINT": "Hauteur de l'icône de pause (ex. '150px' ou '8rem').",
     "IMAGE_WIDTH": "Largeur de l'image",
     "IMAGE_WIDTH_HINT": "Largeur de l'icône de pause (ex. '150px' ou '8rem').",
+    "LIVE_PREVIEW": "Aperçu en direct",
+    "LIVE_PREVIEW_HINT": "Affiche les modifications sur l'écran de pause pendant l'édition, avant l'enregistrement. L'aperçu n'est visible que par vous ; fermer cette fenêtre sans enregistrer rétablit les paramètres enregistrés.",
     "NONE": "Aucun",
     "OPACITY": "Opacité de l'image",
     "OPACITY_HINT": "Opacité de l'icône de pause (entre 0 et 1).",

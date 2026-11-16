@@ -17,6 +17,8 @@
     "IMAGE_HEIGHT_HINT": "Altura del icono de pausa (ej. '150px' o '8rem').",
     "IMAGE_WIDTH": "Ancho de la imagen",
     "IMAGE_WIDTH_HINT": "Ancho del icono de pausa (ej. '150px' o '8rem').",
+    "LIVE_PREVIEW": "Vista previa en vivo",
+    "LIVE_PREVIEW_HINT": "Muestra los cambios en la superposición de pausa mientras se editan, antes de guardar. La vista previa solo es visible para usted; al cerrar esta ventana sin guardar se restauran los ajustes guardados.",
     "NONE": "Ninguno",
     "OPACITY": "Opacidad de la imagen",
     "OPACITY_HINT": "Opacidad del icono de pausa (entre 0 y 1).",

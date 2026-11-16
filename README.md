@@ -59,6 +59,8 @@ game is paused. Use the folder button next to the file picker.
 - Dynamic system defaults — automatically detects and displays default values
   from the active game system (e.g. DnD5e)
 - Reset to defaults button
+- Live preview — try out changes on the pause overlay before saving (only
+  visible to you)
 - No reload required — changes apply on save without reloading Foundry
 - Supports 6 languages: English, German, Spanish, French, Japanese, Portuguese
   (Brazil)
