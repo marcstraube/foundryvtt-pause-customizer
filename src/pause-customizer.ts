@@ -676,17 +676,11 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     // Reset color picker to system default color
     const resetColor =
       defaults[SETTINGS.PAUSE_TEXT_COLOR] ?? DEFAULTS[SETTINGS.PAUSE_TEXT_COLOR] ?? '#ada7b8';
-    const colorPicker = html.querySelector(
-      `[name="${MODULE_ID}.${SETTINGS.PAUSE_TEXT_COLOR}"]`
-    ) as HTMLElement | null;
-    if (colorPicker) {
-      const textInput = colorPicker.querySelector('input[type="text"]') as HTMLInputElement | null;
-      const colorInput = colorPicker.querySelector(
-        'input[type="color"]'
-      ) as HTMLInputElement | null;
-      if (textInput) textInput.value = resetColor;
-      if (colorInput) colorInput.value = resetColor;
-    }
+    // Set the value on the <color-picker> element itself: it is what the form
+    // submits, and it syncs its inner text and color inputs.
+    const colorPicker = html.querySelector(`[name="${MODULE_ID}.${SETTINGS.PAUSE_TEXT_COLOR}"]`) as
+      (HTMLElement & { value: string }) | null;
+    if (colorPicker) colorPicker.value = resetColor;
 
     ui.notifications?.info(
       game.i18n?.localize(I18N_KEYS.RESET_DEFAULTS_DONE) ??
