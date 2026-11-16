@@ -71,6 +71,123 @@ async function updateSelectedImage(): Promise<void> {
   await settings.set(MODULE_ID, SETTINGS.SELECTED_IMAGE, selected);
 }
 
+/** Values of all user-facing settings, keyed by setting key (without module prefix). */
+type PauseValues = Record<string, unknown>;
+
+/** Setting keys that are rendered on the pause overlay (excludes hidden settings). */
+const PAUSE_SETTING_KEYS = Object.values(SETTINGS).filter((key) => key !== SETTINGS.SELECTED_IMAGE);
+
+/**
+ * Unsaved form values shown on the pause overlay while live preview is active,
+ * or null when the saved settings are rendered. The preview is purely local to
+ * this client; nothing is written to the world settings.
+ */
+let previewValues: PauseValues | null = null;
+
+/** Random preview picks per directory path, so a preview does not re-roll on every keystroke. */
+const previewDirectoryPicks = new Map<string, string>();
+
+/** Pending debounce timer for preview updates. */
+let previewTimer: ReturnType<typeof setTimeout> | undefined;
+
+/** DOM id of the live preview checkbox in the settings config. */
+const LIVE_PREVIEW_ID = `${MODULE_ID}-live-preview`;
+
+/** Settings forms that already have the live preview listeners attached. */
+const previewWiredForms = new WeakSet<HTMLElement>();
+
+/** Re-render the pause overlay. */
+function renderPause(): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
+  pause?.render?.({ force: true });
+}
+
+/** Read the saved values of all pause settings. */
+function readSavedValues(): PauseValues {
+  const settings = game.settings as unknown as FoundrySettings;
+  const values: PauseValues = {};
+  for (const key of PAUSE_SETTING_KEYS) {
+    values[key] = settings.get(MODULE_ID, key);
+  }
+  return values;
+}
+
+/**
+ * Read the current (possibly unsaved) values from the settings config form.
+ * Foundry's custom form elements (file-picker, color-picker, range-picker)
+ * expose their value via `.value` just like native inputs.
+ */
+function readFormValues(form: HTMLElement): PauseValues {
+  const values = readSavedValues();
+  for (const key of PAUSE_SETTING_KEYS) {
+    const field = form.querySelector(`[name="${MODULE_ID}.${key}"]`) as { value?: unknown } | null;
+    if (field && field.value !== undefined) values[key] = field.value;
+  }
+  return values;
+}
+
+/** Start or refresh the live preview with the current form values (debounced). */
+function schedulePreviewUpdate(form: HTMLElement): void {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(() => {
+    const toggle = form.querySelector(`#${LIVE_PREVIEW_ID}`) as HTMLInputElement | null;
+    if (!toggle?.checked) return;
+    previewValues = readFormValues(form);
+    renderPause();
+  }, 150);
+}
+
+/** End the live preview and render the saved settings again. */
+function stopPreview(): void {
+  clearTimeout(previewTimer);
+  previewDirectoryPicks.clear();
+  if (previewValues === null) return;
+  previewValues = null;
+  renderPause();
+}
+
+/**
+ * Pick a random image from a directory for the live preview. Browsing is async,
+ * so the first call returns '' and re-renders once the pick is available.
+ */
+function pickPreviewDirectoryImage(path: string): string {
+  const cached = previewDirectoryPicks.get(path);
+  if (cached !== undefined) return cached;
+  previewDirectoryPicks.set(path, '');
+  void browseDirectoryImages(path).then((files) => {
+    const pick = files[Math.floor(Math.random() * files.length)];
+    if (previewValues === null || !pick) return;
+    previewDirectoryPicks.set(path, pick);
+    renderPause();
+  });
+  return '';
+}
+
+/**
+ * Resolve the image/video source to render for the given values. Saved settings
+ * prefer the GM-resolved shared selection (random pick for a directory) so every
+ * client renders the same image; a single file is rendered from chooseFile
+ * directly. The live preview resolves a changed directory locally.
+ */
+function resolveImageSource(values: PauseValues): string {
+  const settings = game.settings as unknown as FoundrySettings;
+  const chooseFile = (values[SETTINGS.CHOOSE_FILE] as string) ?? '';
+  const selectedImage = settings.get(MODULE_ID, SETTINGS.SELECTED_IMAGE) as string;
+
+  if (previewValues !== null) {
+    if (!chooseFile) return '';
+    if (MEDIA_EXTENSION.test(chooseFile)) return chooseFile;
+    const savedChooseFile = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
+    if (chooseFile === savedChooseFile && selectedImage) return selectedImage;
+    return pickPreviewDirectoryImage(chooseFile);
+  }
+
+  if (selectedImage) return selectedImage;
+  if (chooseFile && MEDIA_EXTENSION.test(chooseFile)) return chooseFile;
+  return '';
+}
+
 // Register all settings that don't depend on runtime data
 Hooks.once('init', () => {
   const settings = game.settings as unknown as FoundrySettings;
@@ -362,10 +479,11 @@ Hooks.on('updateSetting', async (setting: { key?: string }) => {
     await updateSelectedImage();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const pause = (ui as any).pause as { render?: (opts?: object) => void } | undefined;
-  pause?.render?.({ force: true });
+  renderPause();
 });
+
+// The live preview only lives as long as the settings window is open
+Hooks.on('closeSettingsConfig', () => stopPreview());
 
 // On startup of an already-paused world, the GM resolves the shared image only
 // if none is set yet (e.g. a directory configured while unpaused, or a world
@@ -443,6 +561,52 @@ function rgbToHex(rgb: string | undefined | null): string | null {
   return '#' + [r, g, b].map((v) => Number(v).toString(16).padStart(2, '0')).join('');
 }
 
+/**
+ * Insert the live preview checkbox above the module's first setting and wire up
+ * the form listeners. The checkbox has no `name`, so it is not submitted as a
+ * setting. Preview is off by default whenever the settings window is rendered.
+ */
+function addLivePreviewToggle(form: HTMLElement, firstFormGroup: Element | null): void {
+  if (!firstFormGroup) return;
+
+  const group = document.createElement('div');
+  group.className = 'form-group';
+
+  const label = document.createElement('label');
+  label.htmlFor = LIVE_PREVIEW_ID;
+  label.textContent = game.i18n?.localize(I18N_KEYS.LIVE_PREVIEW) ?? 'Live preview';
+
+  const fields = document.createElement('div');
+  fields.className = 'form-fields';
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.id = LIVE_PREVIEW_ID;
+  fields.appendChild(checkbox);
+
+  const hint = document.createElement('p');
+  hint.className = 'hint';
+  hint.textContent = game.i18n?.localize(I18N_KEYS.LIVE_PREVIEW_HINT) ?? '';
+
+  group.append(label, fields, hint);
+  firstFormGroup.before(group);
+
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) schedulePreviewUpdate(form);
+    else stopPreview();
+  });
+
+  // The form element survives re-renders; attach the field listeners only once
+  if (previewWiredForms.has(form)) return;
+  previewWiredForms.add(form);
+  const onFieldChange = (event: Event): void => {
+    const target = event.target as Element | null;
+    if (!target?.closest(`[name^="${MODULE_ID}."]`)) return;
+    schedulePreviewUpdate(form);
+  };
+  form.addEventListener('input', onFieldChange);
+  form.addEventListener('change', onFieldChange);
+}
+
 // Add "Reset to Defaults" button and placeholders to the settings config
 Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
   if (!html) return;
@@ -454,6 +618,10 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
   const lastInput = allModuleInputs[allModuleInputs.length - 1];
   const lastFormGroup = lastInput?.closest('.form-group');
   if (!lastFormGroup) return;
+
+  // A re-render replaces the form fields, so any running preview is stale
+  stopPreview();
+  addLivePreviewToggle(html, allModuleInputs[0]?.closest('.form-group') ?? null);
 
   // Read system/Foundry defaults (from cache populated during first render)
   const foundryDefaults = readFoundryPauseDefaults();
@@ -682,6 +850,8 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
       (HTMLElement & { value: string }) | null;
     if (colorPicker) colorPicker.value = resetColor;
 
+    schedulePreviewUpdate(html);
+
     ui.notifications?.info(
       game.i18n?.localize(I18N_KEYS.RESET_DEFAULTS_DONE) ??
         'Pause Customizer settings reset to defaults.'
@@ -703,9 +873,9 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
   (_app: unknown, element: HTMLElement, context: GamePauseContext, _options: unknown) => {
     // Only handle the GamePause application
     if (element.id !== 'pause') return;
-    if (!context.cssClass?.includes('paused')) return;
+    const previewing = previewValues !== null;
+    if (!context.cssClass?.includes('paused') && !previewing) return;
 
-    const settings = game.settings as unknown as FoundrySettings;
     let img = element.querySelector('img') as HTMLElement | null;
     const caption = element.querySelector('figcaption') as HTMLElement | null;
     if (!img || !caption) return;
@@ -755,41 +925,35 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
     img.style.removeProperty('margin-top');
     caption.style.removeProperty('margin-top');
 
-    const pauseImage = settings.get(MODULE_ID, SETTINGS.CHOOSE_FILE) as string;
-    const imageWidth = settings.get(MODULE_ID, SETTINGS.IMAGE_WIDTH) as string;
-    const imageHeight = settings.get(MODULE_ID, SETTINGS.IMAGE_HEIGHT) as string;
-    const opacity = settings.get(MODULE_ID, SETTINGS.OPACITY) as number;
-    const pauseText = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT) as string;
-    const pauseTextFontFamily = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_FONT_FAMILY) as string;
-    const pauseTextColor = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_COLOR) as string;
-    const pauseTextFontSize = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_FONT_SIZE) as string;
-    const pauseTextFontWeight = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_FONT_WEIGHT) as string;
-    const pauseTextTransform = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_TRANSFORM) as string;
-    const pauseTextLetterSpacing = settings.get(
-      MODULE_ID,
-      SETTINGS.PAUSE_TEXT_LETTER_SPACING
-    ) as string;
-    const pauseTextShadow = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_SHADOW) as string;
-    const animationDirection = settings.get(MODULE_ID, SETTINGS.ANIMATION_DIRECTION) as string;
-    const animationDuration = settings.get(MODULE_ID, SETTINGS.ANIMATION_DURATION) as string;
-    const animationTiming = settings.get(MODULE_ID, SETTINGS.ANIMATION_TIMING) as string;
-    const imageMarginTop = settings.get(MODULE_ID, SETTINGS.IMAGE_MARGIN_TOP) as string;
-    const pauseTextMarginTop = settings.get(MODULE_ID, SETTINGS.PAUSE_TEXT_MARGIN_TOP) as string;
-    const pauseBackground = settings.get(MODULE_ID, SETTINGS.PAUSE_BACKGROUND) as string;
-    const pauseBackgroundImage = settings.get(MODULE_ID, SETTINGS.PAUSE_BACKGROUND_IMAGE) as string;
+    // The live preview shows the overlay even while the game is not paused
+    if (previewing) element.classList.add('paused');
+
+    // Unsaved form values while previewing, the saved settings otherwise
+    const values = previewValues ?? readSavedValues();
+    const str = (key: string): string => (values[key] as string | undefined) ?? '';
+
+    const imageWidth = str(SETTINGS.IMAGE_WIDTH);
+    const imageHeight = str(SETTINGS.IMAGE_HEIGHT);
+    const opacity = Number(values[SETTINGS.OPACITY] ?? 1);
+    const pauseText = str(SETTINGS.PAUSE_TEXT);
+    const pauseTextFontFamily = str(SETTINGS.PAUSE_TEXT_FONT_FAMILY);
+    const pauseTextColor = str(SETTINGS.PAUSE_TEXT_COLOR);
+    const pauseTextFontSize = str(SETTINGS.PAUSE_TEXT_FONT_SIZE);
+    const pauseTextFontWeight = str(SETTINGS.PAUSE_TEXT_FONT_WEIGHT);
+    const pauseTextTransform = str(SETTINGS.PAUSE_TEXT_TRANSFORM);
+    const pauseTextLetterSpacing = str(SETTINGS.PAUSE_TEXT_LETTER_SPACING);
+    const pauseTextShadow = str(SETTINGS.PAUSE_TEXT_SHADOW);
+    const animationDirection = str(SETTINGS.ANIMATION_DIRECTION);
+    const animationDuration = str(SETTINGS.ANIMATION_DURATION);
+    const animationTiming = str(SETTINGS.ANIMATION_TIMING);
+    const imageMarginTop = str(SETTINGS.IMAGE_MARGIN_TOP);
+    const pauseTextMarginTop = str(SETTINGS.PAUSE_TEXT_MARGIN_TOP);
+    const pauseBackground = str(SETTINGS.PAUSE_BACKGROUND);
+    const pauseBackgroundImage = str(SETTINGS.PAUSE_BACKGROUND_IMAGE);
 
     // --- Image / Video ---
 
-    // Prefer the GM-resolved shared selection (random pick for a directory) so
-    // every client renders the same image. For a single file the selection is
-    // empty and we render chooseFile directly (no browse permission needed).
-    let resolvedSrc = '';
-    const selectedImage = settings.get(MODULE_ID, SETTINGS.SELECTED_IMAGE) as string;
-    if (selectedImage) {
-      resolvedSrc = selectedImage;
-    } else if (pauseImage && MEDIA_EXTENSION.test(pauseImage)) {
-      resolvedSrc = pauseImage;
-    }
+    const resolvedSrc = resolveImageSource(values);
 
     if (resolvedSrc && VIDEO_EXTENSION.test(resolvedSrc)) {
       const video = document.createElement('video');
@@ -838,7 +1002,7 @@ Hooks.on('renderSettingsConfig', (_app: unknown, html: HTMLElement) => {
       img.style.height = imageHeight;
     }
 
-    if (opacity !== undefined && opacity !== 1) {
+    if (!Number.isNaN(opacity) && opacity !== 1) {
       img.style.opacity = String(opacity);
     }
 

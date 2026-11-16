@@ -17,6 +17,8 @@
     "IMAGE_HEIGHT_HINT": "Height of the pause icon (e.g. '150px' or '8rem').",
     "IMAGE_WIDTH": "Image width",
     "IMAGE_WIDTH_HINT": "Width of the pause icon (e.g. '150px' or '8rem').",
+    "LIVE_PREVIEW": "Live preview",
+    "LIVE_PREVIEW_HINT": "Show changes on the pause overlay while editing, before saving. The preview is only visible to you; closing this window without saving restores the saved settings.",
     "NONE": "None",
     "OPACITY": "Image opacity",
     "OPACITY_HINT": "Opacity of the pause icon (between 0 and 1).",

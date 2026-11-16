@@ -17,6 +17,8 @@
     "IMAGE_HEIGHT_HINT": "Höhe des Pause-Icons (z.B. '150px' oder '8rem').",
     "IMAGE_WIDTH": "Bildbreite",
     "IMAGE_WIDTH_HINT": "Breite des Pause-Icons (z.B. '150px' oder '8rem').",
+    "LIVE_PREVIEW": "Live-Vorschau",
+    "LIVE_PREVIEW_HINT": "Zeigt Änderungen schon während der Bearbeitung im Pause-Overlay an, bevor sie gespeichert werden. Die Vorschau ist nur lokal sichtbar; beim Schließen ohne Speichern gelten wieder die gespeicherten Einstellungen.",
     "NONE": "Keine",
     "OPACITY": "Bild-Deckkraft",
     "OPACITY_HINT": "Deckkraft des Pause-Icons (zwischen 0 und 1).",
